@@ -1,27 +1,13 @@
-# WoW AddOn
+# World of Warcraft Auction House Addon
 
-## New links
+Arbitrages searches the auction house for arbitrage opportunities. When it finds them it sets them as favorites in the auction house.
+
+## Development links, tips
 
 https://warcraft.wiki.gg/wiki/World_of_Warcraft_API/Alphabetic
 
-https://github.com/Auctionator/Auctionator/tree/master
-
-## Old links
-
-https://wowpedia.fandom.com/wiki/Create_a_WoW_AddOn_in_15_Minutes
-
-https://wowpedia.fandom.com/wiki/TOC_format
-
-https://wowpedia.fandom.com/wiki/Introduction_to_Lua
-
-https://wowpedia.fandom.com/wiki/API_GetBuildInfo
-
-https://wowpedia.fandom.com/wiki/Category:Macro_API
-
-https://github.com/Gethe/wow-ui-source
-
-https://wowpedia.fandom.com/wiki/APILink
-
-* When updating addon code use /reload to test the new changes, you may want to put it on a macro hotkey; as well as temporarily disabling any unnecessary addons that would increase loading time.
-* Get an error reporting addon like BugSack or turn on /console scriptErrors 1
-* There is the /dump slash command for general debugging, /etrace for showing events and /fstack for debugging visible UI elements.
+* /console scriptErrors 1
+* /reload - reload the UI
+* /dump - general debugging
+* /etrace - showing events
+* /fstack - debugging visible UI elements
