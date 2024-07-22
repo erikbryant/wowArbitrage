@@ -1,0 +1,9 @@
+## Interface: 100207
+## Version: 1.0.0
+## Title: Arbitrages
+## Notes: Finds arbitrages in the auction house
+## Author: Erik B
+
+Arbitrages.lua
+Utility.lua
+ItemCache.lua
