@@ -4,7 +4,7 @@ Arbitrages searches the auction house for arbitrage opportunities. When it finds
 
 ## Development links, tips
 
-https://warcraft.wiki.gg/wiki/World_of_Warcraft_API/Alphabetic
+https://warcraft.wiki.gg/wiki/World_of_Warcraft_API
 
 * /console scriptErrors 1
 * /reload - reload the UI
