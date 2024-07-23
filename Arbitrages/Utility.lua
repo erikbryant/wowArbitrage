@@ -1,4 +1,6 @@
-function ObjectToString(obj)
+local Utility = CreateFrame("Frame")
+
+function Utility:ObjectToString(obj)
     if type(obj) == 'table' then
         local str = '{ '
         for key, val in pairs(obj) do

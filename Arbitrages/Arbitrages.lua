@@ -5,7 +5,7 @@ local arbitrages = {}
 
 -- Return true if this is an arbitrage opportunity
 function Arbitrages:IsArbitrage(itemID, buyoutPrice)
-    if UnknownID(itemID) or ItemIsEquippable(itemID) then
+    if ItemCache.UnknownID(itemID) or ItemCache.ItemIsEquippable(itemID) then
         return false
     end
 
@@ -15,7 +15,7 @@ function Arbitrages:IsArbitrage(itemID, buyoutPrice)
         return false
     end
 
-    if buyoutPrice < VendorSellPrice(itemID) then
+    if buyoutPrice < ItemCache.VendorSellPrice(itemID) then
         return true
     end
 

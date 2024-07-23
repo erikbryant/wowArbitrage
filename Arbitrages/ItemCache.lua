@@ -1,6 +1,8 @@
 -- #items in cache: 23462
 
-UnknownItemIDs = {
+local ItemCache = CreateFrame("Frame")
+
+local UnknownItemIDs = {
   12034,
   25308,
   38517,
@@ -34,7 +36,7 @@ UnknownItemIDs = {
 }
 
 -- Some IDs found in the AH are not actually valid
-function UnknownID(itemID)
+function ItemCache:UnknownID(itemID)
     local i, id = next(UnknownItemIDs, nil)
 
     while i do
@@ -47,7 +49,7 @@ function UnknownID(itemID)
     return false
 end
 
-ItemIsEquippableCache = {
+local ItemIsEquippableCache = {
   ["25"] = true,
   ["35"] = true,
   ["36"] = true,
@@ -12716,11 +12718,11 @@ ItemIsEquippableCache = {
   ["211939"] = true,
 }
 
-function ItemIsEquippable(itemID)
+function ItemCache:ItemIsEquippable(itemID)
 	return ItemIsEquippableCache[tostring(itemID)]
 end
 
-VendorSellPriceCache = {
+local VendorSellPriceCache = {
   ["25"] = 3,
   ["35"] = 4,
   ["36"] = 3,
@@ -36185,7 +36187,7 @@ VendorSellPriceCache = {
   ["218269"] = 500000,
 }
 
-function VendorSellPrice(itemID)
+function ItemCache:VendorSellPrice(itemID)
     local sellPrice = VendorSellPriceCache[tostring(itemID)]
 
     if sellPrice == nil then
