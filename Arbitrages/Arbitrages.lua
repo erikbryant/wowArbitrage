@@ -9,7 +9,7 @@ function Arbitrages:IsArbitrage(itemID, buyoutPrice)
         return false
     end
 
-    if itemID == 141293 then
+    if itemID == 141292 or itemID == 141293 then
         -- Is equippable, but not listed as such in the generate file.
         -- Don't know why.
         return false
