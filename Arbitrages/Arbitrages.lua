@@ -61,6 +61,9 @@ end
 function Arbitrages:OnEvent(event)
     if event == "AUCTION_HOUSE_SHOW" then
         print("Arbitrages: Sending AH scan request...")
+        if C_AuctionHouse.HasFavorites() then
+            print("Arbitrages: *** Delete your AH favorites! ***")
+        end
         Arbitrages:ResetGlobals()
         Arbitrages:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
         Arbitrages:RegisterEvent("AUCTION_HOUSE_CLOSED")
@@ -90,8 +93,5 @@ Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
 Arbitrages:SetScript("OnEvent", Arbitrages.OnEvent)
 
 print("Arbitrages: Loaded and ready to scan!")
-if C_AuctionHouse.HasFavorites() then
-    print("Arbitrages: *** Delete your AH favorites! ***")
-end
 
 -- print("Arbitrages: /console scriptErrors 1")
