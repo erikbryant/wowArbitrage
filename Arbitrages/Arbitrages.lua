@@ -8,30 +8,7 @@ function Arbitrages:IsArbitrage(itemID, buyoutPrice)
     if ItemCache:UnknownID(itemID) or ItemCache:ItemIsEquippable(itemID) then
         return false
     end
-
-    if itemID == 141292 or itemID == 141293 then
-        -- Is equippable, but not listed as such in the generate file.
-        -- Don't know why.
-        return false
-    end
-
-    if buyoutPrice < ItemCache:VendorSellPrice(itemID) then
-        return true
-    end
-
-    return false
-end
-
--- Print each arbitrage item name
-function Arbitrages:PrintArbitrages()
-    print("----- Arbitrages -----")
-    local itemID, index = next(arbitrages, nil)
-    while itemID do
-        local auction = {C_AuctionHouse.GetReplicateItemInfo(index)}
-        local name = auction[1]
-        print(name)
-        itemID, index = next(arbitrages, itemID)
-    end
+    return buyoutPrice < ItemCache:VendorSellPrice(itemID)
 end
 
 -- Make an AH favorite from each arbitrage item
@@ -42,6 +19,7 @@ function Arbitrages:SetAHFavorites()
         C_AuctionHouse.SetFavoriteItem(itemKey, true)
         itemID, index = next(arbitrages, itemID)
     end
+    print("Arbitrages: ", #arbitrages, "items loaded as favorites!")
 end
 
 -- Return true if all names have been loaded
@@ -55,11 +33,10 @@ function Arbitrages:HaveAllNames()
         end
         itemID, index = next(arbitrages, itemID)
     end
-
     return true
 end
 
--- Scan ReplicateItems to see which qualify as arbitrages
+-- Scan ReplicateItems to see which auctions qualify as arbitrages
 function Arbitrages:FindArbitrages()
     for i = 0, C_AuctionHouse.GetNumReplicateItems()-1 do
         local auction = {C_AuctionHouse.GetReplicateItemInfo(i)}
@@ -67,7 +44,6 @@ function Arbitrages:FindArbitrages()
         local itemID = auction[17]
 
         if self:IsArbitrage(itemID, buyoutPrice) then
-            local name = auction[1]
             arbitrages[itemID] = i
         end
     end
@@ -98,7 +74,6 @@ function Arbitrages:OnEvent(event)
         if self:HaveAllNames() then
             finishedQuery = true
             Arbitrages:UnregisterEvent("REPLICATE_ITEM_LIST_UPDATE")
-            self:PrintArbitrages()
             self:SetAHFavorites()
         end
     elseif event == "AUCTION_HOUSE_CLOSED" then
@@ -113,4 +88,4 @@ Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
 Arbitrages:SetScript("OnEvent", Arbitrages.OnEvent)
 
 print("Arbitrages: Delete your AH favorites!")
-print("Arbitrages: /console scriptErrors 1")
+--print("Arbitrages: /console scriptErrors 1")
