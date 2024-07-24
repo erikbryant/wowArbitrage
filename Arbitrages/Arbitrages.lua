@@ -13,13 +13,15 @@ end
 
 -- Make an AH favorite from each arbitrage item
 function Arbitrages:SetAHFavorites()
+    local count = 0
     local itemID, index = next(arbitrages, nil)
     while itemID do
         local itemKey = C_AuctionHouse.MakeItemKey(itemID)
         C_AuctionHouse.SetFavoriteItem(itemKey, true)
+        count = count + 1
         itemID, index = next(arbitrages, itemID)
     end
-    print("Arbitrages: ", #arbitrages, "items loaded as favorites!")
+    print("Arbitrages: ", count, " items loaded as favorites. Enjoy! :)")
 end
 
 -- Return true if all names have been loaded
@@ -87,5 +89,9 @@ end
 Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
 Arbitrages:SetScript("OnEvent", Arbitrages.OnEvent)
 
-print("Arbitrages: Delete your AH favorites!")
---print("Arbitrages: /console scriptErrors 1")
+print("Arbitrages: Loaded and ready to scan!")
+if C_AuctionHouse.HasFavorites() then
+    print("Arbitrages: *** Delete your AH favorites! ***")
+end
+
+-- print("Arbitrages: /console scriptErrors 1")
