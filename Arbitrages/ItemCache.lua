@@ -1,4 +1,4 @@
--- #items in cache: 23508
+-- #items in cache: 23509
 
 ItemCache = CreateFrame("Frame")
 
@@ -10340,6 +10340,8 @@ local ItemIsEquippableCache = {
   ["139405"] = true,
   ["139407"] = true,
   ["139408"] = true,
+  ["141292"] = true,
+  ["141293"] = true,
   ["141322"] = true,
   ["141408"] = true,
   ["141564"] = true,
@@ -12755,6 +12757,7 @@ local ItemIsEquippableCache = {
   ["211615"] = true,
   ["211937"] = true,
   ["211939"] = true,
+  ["220338"] = true,
 }
 
 function ItemCache:ItemIsEquippable(itemID)
@@ -36268,6 +36271,7 @@ local VendorSellPriceCache = {
   ["213531"] = 2611,
   ["213540"] = 7790,
   ["218269"] = 500000,
+  ["220338"] = 0,
   ["226524"] = 1,
   ["228368"] = 1,
 }
