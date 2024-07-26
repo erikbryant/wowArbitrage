@@ -1,4 +1,4 @@
--- #items in cache: 30009
+-- #items in cache: 30010
 
 ItemCache = CreateFrame("Frame")
 
@@ -368,6 +368,7 @@ local ItemIsEquippableCache = {
   ["1778"] = true,
   ["1780"] = true,
   ["1782"] = true,
+  ["1783"] = true,
   ["1784"] = true,
   ["1785"] = true,
   ["1786"] = true,
@@ -18763,6 +18764,7 @@ local VendorSellPriceCache = {
   ["1778"] = 936,
   ["1780"] = 2136,
   ["1782"] = 2510,
+  ["1783"] = 849,
   ["1784"] = 2051,
   ["1785"] = 1913,
   ["1786"] = 2992,
