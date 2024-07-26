@@ -65,8 +65,6 @@ function Arbitrages:OnEvent(event)
             print("Arbitrages: *** Delete your AH favorites! ***")
         end
         Arbitrages:ResetGlobals()
-        Arbitrages:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
-        Arbitrages:RegisterEvent("AUCTION_HOUSE_CLOSED")
         C_AuctionHouse.ReplicateItems()
     elseif event == "REPLICATE_ITEM_LIST_UPDATE" then
         if finishedQuery then
@@ -78,19 +76,16 @@ function Arbitrages:OnEvent(event)
         end
         if self:HaveAllNames() then
             finishedQuery = true
-            Arbitrages:UnregisterEvent("REPLICATE_ITEM_LIST_UPDATE")
             self:SetAHFavorites()
         end
-    elseif event == "AUCTION_HOUSE_CLOSED" then
-        Arbitrages:ResetGlobals()
-        Arbitrages:UnregisterEvent("AUCTION_HOUSE_CLOSED")
     else
         print("Arbitrages: Unexpected event: ", event)
     end
 end
 
-Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
 Arbitrages:SetScript("OnEvent", Arbitrages.OnEvent)
+Arbitrages:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
+Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
 
 print("Arbitrages: Loaded and ready to scan!")
 
