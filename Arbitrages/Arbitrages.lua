@@ -1,6 +1,12 @@
 local Arbitrages = CreateFrame("Frame")
 local initialQuery = false
 
+-- Print a message with the addon name (in color) as a prefix
+function Arbitrages:Message(...)
+    prefix = WrapTextInColorCode("Arbitrages: ", "cfF00CCF")
+    print(prefix, ...)
+end
+
 -- Return true if this is an arbitrage opportunity
 function Arbitrages:IsArbitrage(itemID, buyoutPrice)
     if ItemCache:UnknownID(itemID) or ItemCache:ItemIsEquippable(itemID) then
@@ -27,14 +33,14 @@ function Arbitrages:FindArbitrages()
             favorites = favorites + 1
         end
     end
-    print("Arbitrages: ", favorites, " items loaded as favorites. Enjoy! :)")
+    self:Message(favorites, " items loaded as favorites. Enjoy! :)")
 end
 
 function Arbitrages:OnEvent(event)
     if event == "AUCTION_HOUSE_SHOW" then
-        print("Arbitrages: Sending AH scan request...")
+        self:Message("Sending AH scan request...")
         if C_AuctionHouse.HasFavorites() then
-            print("Arbitrages: *** Delete your AH favorites! ***")
+            self:Message("*** Delete your AH favorites! ***")
         end
         initialQuery = true
         C_AuctionHouse.ReplicateItems()
@@ -50,5 +56,4 @@ Arbitrages:SetScript("OnEvent", Arbitrages.OnEvent)
 Arbitrages:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
 Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
 
-print("Arbitrages: Loaded and ready to scan!")
--- print("Arbitrages: /console scriptErrors 1")
+Arbitrages:Message("Loaded and ready to scan!")

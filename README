@@ -11,3 +11,9 @@ https://warcraft.wiki.gg/wiki/World_of_Warcraft_API
 * /dump - general debugging
 * /etrace - showing events
 * /fstack - debugging visible UI elements
+
+# Development
+
+## Debugging
+
+/console scriptErrors 1
