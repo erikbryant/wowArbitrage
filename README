@@ -16,4 +16,6 @@ https://warcraft.wiki.gg/wiki/World_of_Warcraft_API
 
 ## Debugging
 
-/console scriptErrors 1
+`/console scriptErrors 1`
+
+`DevTools_Dump(itemKey)`

@@ -4,6 +4,5 @@
 ## Notes: Finds arbitrages in the auction house
 ## Author: Erik B
 
-Utility.lua
 ItemCache.lua
 Arbitrages.lua
