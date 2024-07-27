@@ -1,4 +1,4 @@
-local Utility = CreateFrame("Frame")
+Utility = CreateFrame("Frame")
 
 function Utility:ObjectToString(obj)
     if type(obj) == 'table' then
