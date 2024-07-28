@@ -1,8 +1,8 @@
 ## Interface: 110000
 ## Version: 1.0.0
 ## Title: Arbitrages
-## Notes: Finds arbitrages in the auction house
-## Author: Erik B
+## Notes: Finds arbitrages in the auction house https://github.com/erikbryant/wowArbitrages
+## Author: Erik Bryant (erikbryantology@gmail.com)
 
 ItemCache.lua
 Arbitrages.lua

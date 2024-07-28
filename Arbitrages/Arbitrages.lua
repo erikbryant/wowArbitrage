@@ -40,6 +40,7 @@ function Arbitrages:FindArbitrages()
     end
 end
 
+-- Dispatch an incoming event
 function Arbitrages:OnEvent(event)
     if event == "AUCTION_HOUSE_SHOW" then
         self:Message("Sending AH scan request...")
