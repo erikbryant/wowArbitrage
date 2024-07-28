@@ -3,6 +3,7 @@
 ## Title: Arbitrages
 ## Notes: Finds arbitrages in the auction house https://github.com/erikbryant/wowArbitrages
 ## Author: Erik Bryant (erikbryantology@gmail.com)
+## SavedVariables:
 
 ItemCache.lua
 Arbitrages.lua
