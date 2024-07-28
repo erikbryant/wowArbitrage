@@ -14,6 +14,16 @@ https://warcraft.wiki.gg/wiki/World_of_Warcraft_API
 
 # Development
 
+## Chrashes
+
+The code is driven by events. These events are blocking. That is, the
+main WoW event loop blocks when any of the registered events are fired.
+If the main event loop is blocked too long the entire app will crash
+(likely, a watchdog timer kills it).
+    
+Do what we need to when an event is fired, but do it as quickly as
+possible.
+
 ## Debugging
 
 `/console scriptErrors 1`
