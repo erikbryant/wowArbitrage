@@ -49,26 +49,21 @@ local function CheckForResults()
         return
     end
 
+    -- It doesn't hurt to call this multiple times.
+    C_AuctionHouse.ReplicateItems()
+
     local numAuctions = C_AuctionHouse.GetNumReplicateItems()
 
     if numAuctions <= 0 or numAuctions > NumAuctionsFoundSoFar then
-        -- No results yet, or not done accumulating results. Try again later.
+        -- No results yet, or not done accumulating results
         NumAuctionsFoundSoFar = numAuctions
-        message(NumAuctionsFoundSoFar, "auctions found so far, still accumulating...")
-        C_Timer.After(6, CheckForResults)
-        return
+    else
+        -- Done accumulating. Process the results.
+        NumAuctionsFoundSoFar = -1
+        C_Timer.After(1, FindArbitrages)
     end
 
-    -- Done accumulating. Process the results.
-    C_Timer.After(1, FindArbitrages)
-end
-
--- Ask the AH to send us a copy of all current auctions
-local function RequestAuctions()
-    message("Starting scan...")
-    NumAuctionsFoundSoFar = -1
-    C_AuctionHouse.ReplicateItems()
-    C_Timer.After(15, CheckForResults)
+    C_Timer.After(10, CheckForResults)
 end
 
 local Arbitrages = CreateFrame("Frame", "Arbitrages", UIParent)
@@ -78,7 +73,8 @@ Arbitrages:Hide()
 function Arbitrages:OnEvent(event)
     if event == "AUCTION_HOUSE_SHOW" then
         AuctionHouseOpen = true
-        C_Timer.After(1, RequestAuctions)
+        NumAuctionsFoundSoFar = -1
+        C_Timer.After(1, CheckForResults)
         if C_AuctionHouse.HasFavorites() then
             message("*** Delete your AH favorites! ***")
         end
