@@ -1,4 +1,4 @@
--- #items in cache: 30191
+-- #items in cache: 30195
 
 local VendorSellPriceCache = {
   ["117"] = 1,
