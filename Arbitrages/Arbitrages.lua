@@ -5,7 +5,7 @@ local Arbitrages = CreateFrame("Frame", "Arbitrages", UIParent)
 Arbitrages:Hide()
 
 -- Print a message with the addon name (in color) as a prefix
-function Arbitrages:Message(...)
+local function message(...)
     local prefix = WrapTextInColorCode("Arbitrages: ", "cfF00CCF")
     print(prefix, ...)
 end
@@ -20,15 +20,15 @@ function Arbitrages:FindArbitrages()
         local auction = {C_AuctionHouse.GetReplicateItemInfo(i)}
         local buyoutPrice = auction[10]
         local itemID = auction[17]
-        if buyoutPrice < ItemCache:VendorSellPrice(itemID) and not ItemCache:ItemIsEquippable(itemID) and not ItemCache:UnknownID(itemID) then
+        if buyoutPrice < ItemCache.VendorSellPrice(itemID) and not ItemCache.ItemIsEquippable(itemID) and not ItemCache.UnknownID(itemID) then
             foundArbitrage = true
             C_AuctionHouse.SetFavoriteItem(C_AuctionHouse.MakeItemKey(itemID), true)
         end
     end
     if foundArbitrage then
-        self:Message("Items loaded into favorites. Enjoy! :)")
+        message("Items loaded into favorites. Enjoy! :)")
     else
-        self:Message("No arbitrages found this time. :(")
+        message("No arbitrages found this time. :(")
     end
 end
 
@@ -36,9 +36,9 @@ end
 function Arbitrages:OnEvent(event)
     if event == "AUCTION_HOUSE_SHOW" then
         if C_AuctionHouse.HasFavorites() then
-            self:Message("*** Delete your AH favorites! ***")
+            message("*** Delete your AH favorites! ***")
         end
-        self:Message("Sending AH scan request...")
+        message("Sending AH scan request...")
         self:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
         C_AuctionHouse.ReplicateItems()
     elseif event == "REPLICATE_ITEM_LIST_UPDATE" then
@@ -50,4 +50,4 @@ end
 Arbitrages:SetScript("OnEvent", Arbitrages.OnEvent)
 Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
 
-Arbitrages:Message("Loaded and ready to scan!")
+message("Loaded and ready to scan!")
