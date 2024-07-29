@@ -1,4 +1,4 @@
--- #items in cache: 30190
+-- #items in cache: 30191
 
 local ItemIsEquippableCache = {
   ["25"] = true,
@@ -1454,6 +1454,7 @@ local ItemIsEquippableCache = {
   ["4835"] = true,
   ["4836"] = true,
   ["4837"] = true,
+  ["4838"] = true,
   ["4861"] = true,
   ["4949"] = true,
   ["4960"] = true,
@@ -20422,6 +20423,7 @@ local VendorSellPriceCache = {
   ["4835"] = 6486,
   ["4836"] = 5478,
   ["4837"] = 7479,
+  ["4838"] = 3504,
   ["4852"] = 300,
   ["4861"] = 167,
   ["4865"] = 5,
