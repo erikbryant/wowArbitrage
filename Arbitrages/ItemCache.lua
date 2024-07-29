@@ -1,43 +1,5 @@
 -- #items in cache: 30188
 
-local UnknownItemIDCache = {
-  ["12034"] = true,
-  ["25308"] = true,
-  ["38517"] = true,
-  ["54629"] = true,
-  ["56054"] = true,
-  ["56055"] = true,
-  ["56056"] = true,
-  ["60390"] = true,
-  ["60405"] = true,
-  ["60406"] = true,
-  ["62370"] = true,
-  ["62770"] = true,
-  ["123865"] = true,
-  ["123869"] = true,
-  ["158078"] = true,
-  ["159217"] = true,
-  ["178149"] = true,
-  ["178150"] = true,
-  ["201420"] = true,
-  ["201421"] = true,
-  ["203932"] = true,
-  ["204834"] = true,
-  ["204835"] = true,
-  ["204836"] = true,
-  ["204837"] = true,
-  ["204838"] = true,
-  ["204839"] = true,
-  ["204840"] = true,
-  ["204841"] = true,
-  ["204842"] = true,
-}
-
--- Some IDs found in the AH are not actually valid
-local function UnknownID(itemID)
-	return UnknownItemIDCache[tostring(itemID)]
-end
-
 local ItemIsEquippableCache = {
   ["25"] = true,
   ["35"] = true,
@@ -18467,6 +18429,44 @@ local ItemIsEquippableCache = {
 
 local function ItemIsEquippable(itemID)
 	return ItemIsEquippableCache[tostring(itemID)]
+end
+
+local UnknownItemIDCache = {
+  ["12034"] = true,
+  ["25308"] = true,
+  ["38517"] = true,
+  ["54629"] = true,
+  ["56054"] = true,
+  ["56055"] = true,
+  ["56056"] = true,
+  ["60390"] = true,
+  ["60405"] = true,
+  ["60406"] = true,
+  ["62370"] = true,
+  ["62770"] = true,
+  ["123865"] = true,
+  ["123869"] = true,
+  ["158078"] = true,
+  ["159217"] = true,
+  ["178149"] = true,
+  ["178150"] = true,
+  ["201420"] = true,
+  ["201421"] = true,
+  ["203932"] = true,
+  ["204834"] = true,
+  ["204835"] = true,
+  ["204836"] = true,
+  ["204837"] = true,
+  ["204838"] = true,
+  ["204839"] = true,
+  ["204840"] = true,
+  ["204841"] = true,
+  ["204842"] = true,
+}
+
+-- Some IDs found in the AH are not actually valid
+local function UnknownID(itemID)
+	return UnknownItemIDCache[tostring(itemID)]
 end
 
 local VendorSellPriceCache = {
