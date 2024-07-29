@@ -22,7 +22,8 @@ If the main event loop is blocked too long the entire app will crash
 (likely, a watchdog timer kills it).
     
 Do what we need to when an event is fired, but do it as quickly as
-possible.
+possible. Also, try to execute off of the main event thread (in timed
+callbacks) as much as possible.
 
 ## Debugging
 
