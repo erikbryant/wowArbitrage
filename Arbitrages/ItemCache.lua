@@ -1,7 +1,5 @@
 -- #items in cache: 30188
 
-ItemCache = CreateFrame("Frame")
-
 local UnknownItemIDCache = {
   ["12034"] = true,
   ["25308"] = true,
@@ -36,7 +34,7 @@ local UnknownItemIDCache = {
 }
 
 -- Some IDs found in the AH are not actually valid
-function ItemCache:UnknownID(itemID)
+local function UnknownID(itemID)
 	return UnknownItemIDCache[tostring(itemID)]
 end
 
@@ -18467,7 +18465,7 @@ local ItemIsEquippableCache = {
   ["220338"] = true,
 }
 
-function ItemCache:ItemIsEquippable(itemID)
+local function ItemIsEquippable(itemID)
 	return ItemIsEquippableCache[tostring(itemID)]
 end
 
@@ -46889,6 +46887,14 @@ local VendorSellPriceCache = {
   ["228368"] = 1,
 }
 
-function ItemCache:VendorSellPrice(itemID)
+local function VendorSellPrice(itemID)
     return VendorSellPriceCache[tostring(itemID)] or 0
 end
+
+ItemCache = {
+  ItemIsEquippable = ItemIsEquippable,
+  UnknownID = UnknownID,
+  VendorSellPrice = VendorSellPrice,
+}
+
+return ItemCache
