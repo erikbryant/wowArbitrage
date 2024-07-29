@@ -46896,5 +46896,3 @@ ItemCache = {
   UnknownID = UnknownID,
   VendorSellPrice = VendorSellPrice,
 }
-
-return ItemCache
