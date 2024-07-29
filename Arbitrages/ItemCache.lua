@@ -1,4 +1,4 @@
--- #items in cache: 30188
+-- #items in cache: 30189
 
 local ItemIsEquippableCache = {
   ["25"] = true,
@@ -2841,6 +2841,7 @@ local ItemIsEquippableCache = {
   ["11974"] = true,
   ["11975"] = true,
   ["11976"] = true,
+  ["11977"] = true,
   ["11978"] = true,
   ["11979"] = true,
   ["11980"] = true,
@@ -22386,6 +22387,7 @@ local VendorSellPriceCache = {
   ["11974"] = 4971,
   ["11975"] = 4739,
   ["11976"] = 7778,
+  ["11977"] = 7896,
   ["11978"] = 7414,
   ["11979"] = 7471,
   ["11980"] = 10539,
