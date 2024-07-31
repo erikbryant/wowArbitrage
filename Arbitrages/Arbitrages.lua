@@ -70,13 +70,14 @@ local function CheckForAuctionResults()
     NumAuctionsFoundLastCheck = numAuctions
 
     -- The AH is slow to accumulate results, give it some time before checking again
-    C_Timer.After(8, CheckForAuctionResults)
+    C_Timer.After(12, CheckForAuctionResults)
 end
 
 -- Dispatch an incoming event
 local function OnEvent(self, event)
     if event == "AUCTION_HOUSE_SHOW" then
         AuctionHouseOpen = true
+        PrettyPrint("Welcome to the auction house. Starting scan...")
         C_Timer.After(1, CheckForAuctionResults)
         if C_AuctionHouse.HasFavorites() then
             PrettyPrint("*** Delete your AH favorites! ***")
