@@ -37,27 +37,59 @@ local function FindArbitrages()
     end
 end
 
-local initialQuery
+local AuctionHouseOpen = false
+local NumAuctionsFoundLastCheck = 0
+local AuctionsHaveBeenProcessed = false
 
+-- Loop until AH closes. Each time new results are available process them.
+local function CheckForAuctionResults()
+    if not AuctionHouseOpen then
+        PrettyPrint("Auction house is closed. Aborting scan.")
+        return
+    end
+
+    local numAuctions = C_AuctionHouse.GetNumReplicateItems()
+
+    if numAuctions == 0 then
+        -- No auction results. Ask for results.
+        C_AuctionHouse.ReplicateItems()
+    elseif numAuctions == NumAuctionsFoundLastCheck then
+        -- Auction results are done accumulating
+        if not AuctionsHaveBeenProcessed then
+            AuctionsHaveBeenProcessed = true
+            FindArbitrages()
+            -- Ask for new results
+            C_AuctionHouse.ReplicateItems()
+        end
+    else
+        -- Something changed, these are new auction results
+        AuctionsHaveBeenProcessed = false
+        PrettyPrint("Accumulating auctions", numAuctions)
+    end
+
+    NumAuctionsFoundLastCheck = numAuctions
+
+    -- The AH is slow to accumulate results, give it some time before checking again
+    C_Timer.After(8, CheckForAuctionResults)
+end
+
+-- Dispatch an incoming event
 local function OnEvent(self, event)
     if event == "AUCTION_HOUSE_SHOW" then
-        PrettyPrint("Sending scan...")
-        C_AuctionHouse.ReplicateItems()
-        initialQuery = true
+        AuctionHouseOpen = true
+        C_Timer.After(1, CheckForAuctionResults)
         if C_AuctionHouse.HasFavorites() then
             PrettyPrint("*** Delete your AH favorites! ***")
         end
-    elseif event == "REPLICATE_ITEM_LIST_UPDATE" then
-        if initialQuery then
-            initialQuery = false
-            FindArbitrages()
-        end
-    end
+    elseif event == "AUCTION_HOUSE_CLOSED" then
+        AuctionHouseOpen = false
+   end
 end
 
-local f = CreateFrame("Frame")
-f:RegisterEvent("AUCTION_HOUSE_SHOW")
-f:RegisterEvent("REPLICATE_ITEM_LIST_UPDATE")
-f:SetScript("OnEvent", OnEvent)
+local Arbitrages = CreateFrame("Frame", "Arbitrages", UIParent)
+Arbitrages:Hide()
+Arbitrages:SetScript("OnEvent", OnEvent)
+Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
+Arbitrages:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
 PrettyPrint("Loaded and ready to scan!")
