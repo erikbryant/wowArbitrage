@@ -8,11 +8,10 @@ local function PrettyPrint(...)
 end
 
 -- Create an AH favorite for each auction that is an arbitrage
-local function FindArbitrages()
-    local numAuctions = C_AuctionHouse.GetNumReplicateItems()
+local function FindArbitrages(firstAuction, numAuctions)
     local foundArbitrage = false
 
-    PrettyPrint("Searching for arbitrages in", numAuctions ,"auctions...")
+    PrettyPrint("Searching for arbitrages in", firstAuction, "-", numAuctions,"auctions...")
 
     ---- Optimization: Create local function pointers so we only
     ---- search for the function in the global namespace once,
@@ -20,7 +19,7 @@ local function FindArbitrages()
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
     local vendorSellPrice = ItemCache.VendorSellPrice
 
-    for i = 0, numAuctions-1 do
+    for i = firstAuction, numAuctions -1 do
         local auction = {getReplicateItemInfo(i)}
         local buyoutPrice = auction[10]
         local itemID = auction[17]
@@ -31,15 +30,12 @@ local function FindArbitrages()
     end
 
     if foundArbitrage then
-        PrettyPrint("Arbitrage auctions saved as favorites. Enjoy! :)")
-    else
-        PrettyPrint("No arbitrages found this time. :(")
+        PrettyPrint("Arbitrage auction(s) found and added to favorites!")
     end
 end
 
 local AuctionHouseOpen = false
 local NumAuctionsFoundLastCheck = 0
-local AuctionsHaveBeenProcessed = false
 
 -- Loop until AH closes. Each time new results are available process them.
 local function CheckForAuctionResults()
@@ -50,27 +46,19 @@ local function CheckForAuctionResults()
 
     local numAuctions = C_AuctionHouse.GetNumReplicateItems()
 
-    if numAuctions == 0 then
-        -- No auction results. Ask for results.
+    if numAuctions == 0 or numAuctions == NumAuctionsFoundLastCheck then
+        -- No [new] auction results. Ask for results.
         C_AuctionHouse.ReplicateItems()
-    elseif numAuctions == NumAuctionsFoundLastCheck then
-        -- Auction results are done accumulating
-        if not AuctionsHaveBeenProcessed then
-            AuctionsHaveBeenProcessed = true
-            FindArbitrages()
-            -- Ask for new results
-            C_AuctionHouse.ReplicateItems()
-        end
     else
-        -- Something changed, these are new auction results
-        AuctionsHaveBeenProcessed = false
-        PrettyPrint("Accumulating auctions", numAuctions)
+        -- numAuctions > 0 and not numAuctions == NumAuctionsFoundLastCheck
+        -- Received some auction results
+        FindArbitrages(NumAuctionsFoundLastCheck, numAuctions)
     end
 
     NumAuctionsFoundLastCheck = numAuctions
 
-    -- The AH is slow to accumulate results, give it some time before checking again
-    C_Timer.After(12, CheckForAuctionResults)
+    -- Keep checking for results
+    C_Timer.After(8, CheckForAuctionResults)
 end
 
 -- Dispatch an incoming event
