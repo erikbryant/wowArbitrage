@@ -1,4 +1,4 @@
--- #items in cache: 30448
+-- #items in cache: 30455
 
 local VendorSellPriceCache = {
   ["556"] = 106,
@@ -49,6 +49,7 @@ local VendorSellPriceCache = {
   ["2881"] = 150,
   ["2882"] = 300,
   ["2883"] = 375,
+  ["2931"] = 250,
   ["3010"] = 101,
   ["3179"] = 125,
   ["3180"] = 168,
