@@ -37,7 +37,7 @@ end
 local AuctionHouseOpen = false
 local NumAuctionsFoundLastCheck = 0
 
--- Loop until AH closes. Each time new results are available process them.
+-- Loop until the AH closes, processing new results as they become available
 local function CheckForAuctionResults()
     if not AuctionHouseOpen then
         PrettyPrint("Auction house is closed. Aborting scan.")
@@ -58,7 +58,7 @@ local function CheckForAuctionResults()
     NumAuctionsFoundLastCheck = numAuctions
 
     -- Keep checking for results
-    C_Timer.After(8, CheckForAuctionResults)
+    C_Timer.After(10, CheckForAuctionResults)
 end
 
 -- Dispatch an incoming event
