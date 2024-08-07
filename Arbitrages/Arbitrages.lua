@@ -19,7 +19,7 @@ local function FindArbitrages(firstAuction, numAuctions)
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
     local vendorSellPrice = ItemCache.VendorSellPrice
 
-    for i = firstAuction, numAuctions -1 do
+    for i = firstAuction, numAuctions-1 do
         local auction = {getReplicateItemInfo(i)}
         local buyoutPrice = auction[10]
         local itemID = auction[17]
