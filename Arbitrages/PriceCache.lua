@@ -1,5 +1,3 @@
--- #items in cache: 32847
-
 local VendorSellPriceCache = {
   ["556"] = 106,
   ["770"] = 316,
@@ -812,6 +810,7 @@ local VendorSellPriceCache = {
   ["14473"] = 3000,
   ["14474"] = 3000,
   ["14476"] = 3500,
+  ["14479"] = 3500,
   ["14482"] = 4000,
   ["14483"] = 4000,
   ["14488"] = 5000,
@@ -9114,6 +9113,6 @@ local function VendorSellPrice(itemID)
     return VendorSellPriceCache[tostring(itemID)] or 0
 end
 
-ItemCache = {
+PriceCache = {
   VendorSellPrice = VendorSellPrice,
 }
