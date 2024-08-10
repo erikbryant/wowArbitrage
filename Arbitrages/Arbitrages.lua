@@ -7,6 +7,64 @@ local function PrettyPrint(...)
     print(prefix, ...)
 end
 
+local function Pet(auction)
+    local itemID = auction[17]
+
+    if not itemID == 82800 then
+        -- This is not a pet cage auction
+        return false
+    end
+
+    local qualityID = auction[4]
+    local buyoutPrice = auction[10]
+
+    if buyoutPrice > 2000000 or qualityID < 3 then
+        -- Not worth buying
+        return false
+    end
+
+    local name = auction[1]
+    local speciesID = PetCache.PetId(name)
+
+    if speciesID == 0 then
+        -- We don't need this pet species
+        return false
+    end
+
+    -- We found a pet worth buying!
+    local itemKey = {
+        itemID = itemID,
+        itemLevel = auction[6],
+        itemSuffix = 0,
+        battlePetSpeciesID = speciesID,
+    }
+    C_AuctionHouse.SetFavoriteItem(itemKey, true)
+
+    return true
+end
+
+-- Create an AH favorite for each pet auction worth buying
+local function FindPetBargains(firstAuction, numAuctions)
+    local foundCheapPet = false
+
+    -- Optimization: Create local function pointers so we only
+    -- search for the function in the global namespace once,
+    -- instead of on every call.
+    local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
+
+    for i = firstAuction, numAuctions-1 do
+        local auction = {getReplicateItemInfo(i)}
+        local itemID = auction[17]
+        if itemID == 82800 and Pet(auction) then
+            foundCheapPet = true
+        end
+    end
+
+    if foundCheapPet then
+        PrettyPrint("Inexpensive pet auction(s) found and added to favorites!")
+    end
+end
+
 -- Create an AH favorite for each auction that is an arbitrage
 local function FindArbitrages(firstAuction, numAuctions)
     local foundArbitrage = false
@@ -17,7 +75,7 @@ local function FindArbitrages(firstAuction, numAuctions)
     -- search for the function in the global namespace once,
     -- instead of on every call.
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
-    local vendorSellPrice = ItemCache.VendorSellPrice
+    local vendorSellPrice = PriceCache.VendorSellPrice
 
     for i = firstAuction, numAuctions-1 do
         local auction = {getReplicateItemInfo(i)}
@@ -59,6 +117,7 @@ local function CheckForAuctionResults()
         -- numAuctions > 0 and not numAuctions == NumAuctionsFoundLastCheck
         -- Received some auction results
         FindArbitrages(NumAuctionsFoundLastCheck, numAuctions)
+        FindPetBargains(NumAuctionsFoundLastCheck, numAuctions)
     end
 
     NumAuctionsFoundLastCheck = numAuctions
