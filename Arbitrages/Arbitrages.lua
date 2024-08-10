@@ -13,9 +13,9 @@ local function FindArbitrages(firstAuction, numAuctions)
 
     PrettyPrint("Searching for arbitrages in", firstAuction, "-", numAuctions,"auctions...")
 
-    ---- Optimization: Create local function pointers so we only
-    ---- search for the function in the global namespace once,
-    ---- instead of on every call.
+    -- Optimization: Create local function pointers so we only
+    -- search for the function in the global namespace once,
+    -- instead of on every call.
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
     local vendorSellPrice = ItemCache.VendorSellPrice
 
@@ -25,7 +25,13 @@ local function FindArbitrages(firstAuction, numAuctions)
         local itemID = auction[17]
         if buyoutPrice < vendorSellPrice(itemID) then
             foundArbitrage = true
-            C_AuctionHouse.SetFavoriteItem(C_AuctionHouse.MakeItemKey(itemID), true)
+            local itemKey = {
+                itemID = itemID,
+                itemLevel = auction[6],
+                itemSuffix = 0,
+                battlePetSpeciesID = 0,
+            }
+            C_AuctionHouse.SetFavoriteItem(itemKey, true)
         end
     end
 
