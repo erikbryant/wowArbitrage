@@ -18,7 +18,7 @@ local function Pet(auction)
     local qualityID = auction[4]
     local buyoutPrice = auction[10]
 
-    if buyoutPrice > 2000000 or qualityID < 3 then
+    if buyoutPrice > 1000000 or qualityID < 3 then
         -- Not worth buying
         return false
     end
