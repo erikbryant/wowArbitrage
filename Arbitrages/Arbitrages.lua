@@ -7,7 +7,7 @@ local function PrettyPrint(...)
     print(prefix, ...)
 end
 
-local function Pet(auction)
+local function IsCheapPet(auction)
     local itemID = auction[17]
 
     if not itemID == 82800 then
@@ -54,8 +54,8 @@ local function FindPetBargains(firstAuction, numAuctions)
 
     for i = firstAuction, numAuctions-1 do
         local auction = {getReplicateItemInfo(i)}
-        local itemID = auction[17]
-        if itemID == 82800 and Pet(auction) then
+        -- auction[17] is the itemID
+        if auction[17] == 82800 and IsCheapPet(auction) then
             foundCheapPet = true
         end
     end
@@ -109,21 +109,23 @@ local function CheckForAuctionResults()
     end
 
     local numAuctions = C_AuctionHouse.GetNumReplicateItems()
+    local checkDelay = 60
 
     if numAuctions == 0 or numAuctions == NumAuctionsFoundLastCheck then
         -- No [new] auction results. Ask for results.
         C_AuctionHouse.ReplicateItems()
     else
         -- numAuctions > 0 and not numAuctions == NumAuctionsFoundLastCheck
-        -- Received some auction results
+        -- Received some auction results!
         FindArbitrages(NumAuctionsFoundLastCheck, numAuctions)
         FindPetBargains(NumAuctionsFoundLastCheck, numAuctions)
+        checkDelay = 9
     end
 
     NumAuctionsFoundLastCheck = numAuctions
 
     -- Keep checking for results
-    C_Timer.After(10, CheckForAuctionResults)
+    C_Timer.After(checkDelay, CheckForAuctionResults)
 end
 
 -- Dispatch an incoming event
