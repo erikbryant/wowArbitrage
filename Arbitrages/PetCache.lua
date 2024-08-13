@@ -527,7 +527,6 @@ local PetIdCache = {
   ["Firebat Pup"] = 1928,
   ["Firefly"] = 146,
   ["Firesting Buzzer"] = 2557,
-  ["Fishy"] = 847,
   ["Fjord Rat"] = 644,
   ["Flamering Moth"] = 1325,
   ["Flash"] = 4590,
