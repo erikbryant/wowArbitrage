@@ -1929,6 +1929,7 @@ local OwnedLevelCache = {
   ["Bronze Whelpling"] = 8,
   ["Brown Snake"] = 25,
   ["Celestial Dragon"] = 7,
+  ["Cheddar"] = 1,
   ["Chicken"] = 9,
   ["Chrominius"] = 7,
   ["Cinder Pup"] = 25,
