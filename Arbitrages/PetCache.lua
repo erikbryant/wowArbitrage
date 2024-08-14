@@ -2030,6 +2030,7 @@ local OwnedLevelCache = {
   ["Stitched Pup"] = 1,
   ["Stoneclaw"] = 1,
   ["Stoneskin Dredwing Pup"] = 8,
+  ["Stormborne Whelpling"] = 1,
   ["Strand Crawler"] = 25,
   ["Sun Sproutling"] = 25,
   ["Sunfire Kaliri"] = 25,
