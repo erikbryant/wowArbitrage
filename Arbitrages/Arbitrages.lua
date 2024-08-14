@@ -7,40 +7,40 @@ local function PrettyPrint(...)
     print(prefix, ...)
 end
 
+-- If this pet auction is a good bargain, add it as an AH favorite
 local function IsCheapPet(auction)
-    local itemID = auction[17]
-
-    if not itemID == 82800 then
-        -- This is not a pet cage auction
-        return false
-    end
-
     local qualityID = auction[4]
-    local buyoutPrice = auction[10]
-
-    if buyoutPrice > 1000000 or qualityID < 3 then
-        -- Not worth buying
+    if qualityID < 3 then
+        -- Not worth buying anything less than Rare(3)
         return false
     end
 
     local name = auction[1]
-    local speciesID = PetCache.PetId(name)
+    local petLevel = auction[6]
+    local buyoutPrice = auction[10]
+    local ownedLevel = PetCache.OwnedLevel(name)
 
-    if speciesID == 0 then
-        -- We don't need this pet species
+    if petLevel <= ownedLevel then
+        -- We already have a better pet
         return false
     end
 
-    -- We found a pet worth buying!
-    local itemKey = {
-        itemID = itemID,
-        itemLevel = auction[6],
-        itemSuffix = 0,
-        battlePetSpeciesID = speciesID,
-    }
-    C_AuctionHouse.SetFavoriteItem(itemKey, true)
+    -- The pet is an improvement, but is it cheap?
+    local valueForLevel = 1000000 + 4000000*(petLevel-1)/24
+    if buyoutPrice <= valueForLevel then
+        -- This pet is worth buying!
+        local itemKey = {
+            itemID = auction[17],
+            itemLevel = 0,
+            itemSuffix = 0,
+            battlePetSpeciesID = PetCache.SpeciesId(name),
+        }
+        C_AuctionHouse.SetFavoriteItem(itemKey, true)
+        PrettyPrint("Consider buying", name, petLevel, "@", GetCoinTextureString(buyoutPrice))
+        return true
+    end
 
-    return true
+    return false
 end
 
 -- Create an AH favorite for each pet auction worth buying
@@ -85,7 +85,7 @@ local function FindArbitrages(firstAuction, numAuctions)
             foundArbitrage = true
             local itemKey = {
                 itemID = itemID,
-                itemLevel = auction[6],
+                itemLevel = 0,
                 itemSuffix = 0,
                 battlePetSpeciesID = 0,
             }
