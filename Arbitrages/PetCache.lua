@@ -1896,7 +1896,8 @@ local SpeciesIdCache = {
   ["Zooey Snake"] = 731,
   ["Zoom"] = 1903,
   ["Zur'aj the Depleted"] = 2550,
-  ["[DNT] Storm Pet Boss - Rare"] = 3425,}
+  ["[DNT] Storm Pet Boss - Rare"] = 3425,
+}
 
 local function SpeciesId(name)
     return SpeciesIdCache[name] or 0
@@ -2054,7 +2055,8 @@ local OwnedLevelCache = {
   ["Zandalari Kneebiter"] = 1,
   ["Zandalari Toenibbler"] = 25,
   ["Zephyrian Prince"] = 7,
-  ["Zur'aj the Depleted"] = 25,}
+  ["Zur'aj the Depleted"] = 25,
+}
 
 local function OwnedLevel(speciesID)
     return OwnedLevelCache[speciesID] or 0
