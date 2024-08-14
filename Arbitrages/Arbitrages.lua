@@ -26,7 +26,7 @@ local function IsCheapPet(auction)
     end
 
     -- The pet is an improvement, but is it cheap?
-    local valueForLevel = 1000000 + 4000000*(petLevel-1)/24
+    local valueForLevel = 1000000 + 2000000*(petLevel-1)/24
     if buyoutPrice <= valueForLevel then
         -- This pet is worth buying!
         local itemKey = {
@@ -36,7 +36,7 @@ local function IsCheapPet(auction)
             battlePetSpeciesID = PetCache.SpeciesId(name),
         }
         C_AuctionHouse.SetFavoriteItem(itemKey, true)
-        PrettyPrint("Consider buying", name, petLevel, "@", GetCoinTextureString(buyoutPrice))
+        PrettyPrint("Consider buying", name, ownedLevel, "->", petLevel, "@", GetCoinTextureString(buyoutPrice))
         return true
     end
 
