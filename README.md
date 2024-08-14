@@ -27,3 +27,9 @@ if the callback takes any moderate length of time.
 `C_CVar.SetCVar("scriptErrors", 1)`
 
 `DevTools_Dump(itemKey)`
+
+Get latest UI version number:
+
+```shell
+/run print((select(4, GetBuildInfo())))
+```
