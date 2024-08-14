@@ -109,7 +109,7 @@ local function CheckForAuctionResults()
     end
 
     local numAuctions = C_AuctionHouse.GetNumReplicateItems()
-    local checkDelay = 60
+    local checkDelay = 30
 
     if numAuctions == 0 or numAuctions == NumAuctionsFoundLastCheck then
         -- No [new] auction results. Ask for results.
@@ -119,7 +119,7 @@ local function CheckForAuctionResults()
         -- Received some auction results!
         FindArbitrages(NumAuctionsFoundLastCheck, numAuctions)
         FindPetBargains(NumAuctionsFoundLastCheck, numAuctions)
-        checkDelay = 9
+        checkDelay = 10
     end
 
     NumAuctionsFoundLastCheck = numAuctions
