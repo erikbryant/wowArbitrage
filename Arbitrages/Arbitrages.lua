@@ -22,7 +22,7 @@ local function IsCheapPet(auction)
 
     if petLevel <= ownedLevel then
         -- We already have a better pet
-        return false
+        return
     end
 
     -- The pet is an improvement, but is it cheap?
@@ -37,16 +37,11 @@ local function IsCheapPet(auction)
         }
         C_AuctionHouse.SetFavoriteItem(itemKey, true)
         PrettyPrint("Consider buying", name, ownedLevel, "->", petLevel, "@", GetCoinTextureString(buyoutPrice))
-        return true
     end
-
-    return false
 end
 
 -- Create an AH favorite for each pet auction worth buying
 local function FindPetBargains(firstAuction, numAuctions)
-    local foundCheapPet = false
-
     -- Optimization: Create local function pointers so we only
     -- search for the function in the global namespace once,
     -- instead of on every call.
@@ -55,13 +50,9 @@ local function FindPetBargains(firstAuction, numAuctions)
     for i = firstAuction, numAuctions-1 do
         local auction = {getReplicateItemInfo(i)}
         -- auction[17] is the itemID
-        if auction[17] == 82800 and IsCheapPet(auction) then
-            foundCheapPet = true
+        if auction[17] == 82800 then
+            IsCheapPet(auction)
         end
-    end
-
-    if foundCheapPet then
-        PrettyPrint("Inexpensive pet auction(s) found and added to favorites!")
     end
 end
 
@@ -104,12 +95,11 @@ local NumAuctionsFoundLastCheck = 0
 -- Loop until the AH closes, processing new results as they become available
 local function CheckForAuctionResults()
     if not AuctionHouseOpen then
-        PrettyPrint("Auction house is closed. Aborting scan.")
+        PrettyPrint("Auction house is closed")
         return
     end
 
     local numAuctions = C_AuctionHouse.GetNumReplicateItems()
-    local checkDelay = 30
 
     if numAuctions == 0 or numAuctions == NumAuctionsFoundLastCheck then
         -- No [new] auction results. Ask for results.
@@ -119,13 +109,12 @@ local function CheckForAuctionResults()
         -- Received some auction results!
         FindArbitrages(NumAuctionsFoundLastCheck, numAuctions)
         FindPetBargains(NumAuctionsFoundLastCheck, numAuctions)
-        checkDelay = 10
     end
 
     NumAuctionsFoundLastCheck = numAuctions
 
     -- Keep checking for results
-    C_Timer.After(checkDelay, CheckForAuctionResults)
+    C_Timer.After(30, CheckForAuctionResults)
 end
 
 -- Dispatch an incoming event
