@@ -1952,6 +1952,7 @@ local OwnedLevelCache = {
   ["Direhorn Runt"] = 7,
   ["Docile Skyfin"] = 6,
   ["Doom Bloom"] = 5,
+  ["Drafty"] = 1,
   ["Dreadmaw"] = 7,
   ["Dustite"] = 5,
   ["Echo of the Cave"] = 6,
