@@ -332,7 +332,6 @@ local SpeciesIdCache = {
   ["Coralback Fiddler"] = 1775,
   ["Core Hound Pup"] = 244,
   ["Corefire Imp"] = 1149,
-  ["Corgi Pup"] = 1890,
   ["Corgnelius"] = 1929,
   ["Corlain Falcon"] = 2405,
   ["Cornish Rex Cat"] = 41,
