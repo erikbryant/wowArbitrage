@@ -1937,6 +1937,7 @@ local OwnedLevelCache = {
   ["Clockwork Rocket Bot"] = 25,
   ["Cloudfeather Fledgling"] = 7,
   ["Cockatiel"] = 4,
+  ["Coilfang Stalker"] = 1,
   ["Comet"] = 7,
   ["Core Hound Pup"] = 9,
   ["Corefire Imp"] = 25,
