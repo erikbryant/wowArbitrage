@@ -2011,6 +2011,7 @@ local OwnedLevelCache = {
   ["Netherspawn, Spawn of Netherspawn"] = 7,
   ["Nuts"] = 8,
   ["Orange Tabby Cat"] = 25,
+  ["Patos"] = 1,
   ["Peddlefeet"] = 25,
   ["Phoenix Hatchling"] = 4,
   ["Phoenix Hawk Hatchling"] = 4,
