@@ -2046,6 +2046,7 @@ local OwnedLevelCache = {
   ["Runeforged Servitor"] = 3,
   ["Sanctum Cub"] = 4,
   ["Sandshell Chitterer"] = 1,
+  ["Scraps"] = 1,
   ["Sea Pony"] = 4,
   ["Seedle"] = 1,
   ["Senegal"] = 7,
