@@ -76,7 +76,7 @@ local function FindArbitrages(firstAuction, numAuctions)
         local auction = {getReplicateItemInfo(i)}
         local buyoutPrice = auction[10]
         local itemID = auction[17]
-        if buyoutPrice < vendorSellPrice(itemID) then
+        if buyoutPrice > 0 and buyoutPrice < vendorSellPrice(itemID) then
             foundArbitrage = true
             local itemKey = {
                 itemID = itemID,
