@@ -2020,6 +2020,7 @@ local OwnedLevelCache = {
   ["Magma Rageling"] = 4,
   ["Mechanical Axebeak"] = 25,
   ["Mechanical Scorpid"] = 25,
+  ["Menagerie Custodian"] = 1,
   ["Micromancer"] = 1,
   ["Mini Mindslayer"] = 25,
   ["Mischievous Zephyr"] = 1,
