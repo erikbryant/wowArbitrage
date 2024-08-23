@@ -2094,6 +2094,7 @@ local OwnedLevelCache = {
   ["Toxic Wasteling"] = 25,
   ["Trishi"] = 1,
   ["Twilight Clutch-Sister"] = 1,
+  ["Undercity Cockroach"] = 25,
   ["Unstable Tendril"] = 1,
   ["Untamed Hatchling"] = 1,
   ["Untethered Wyrmling"] = 1,
