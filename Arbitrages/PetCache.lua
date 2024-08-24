@@ -1904,6 +1904,7 @@ end
 
 local OwnedLevelCache = {
   ["Abyssius"] = 8,
+  ["Albatross Hatchling"] = 1,
   ["Albino Chimaeraling"] = 25,
   ["Albino Snake"] = 25,
   ["Alliance Balloon"] = 1,
@@ -1931,6 +1932,7 @@ local OwnedLevelCache = {
   ["Brown Snake"] = 25,
   ["Bunbo"] = 4,
   ["Celestial Dragon"] = 7,
+  ["Chaos Pup"] = 1,
   ["Cheddar"] = 4,
   ["Chicken"] = 9,
   ["Chrominius"] = 7,
@@ -1994,6 +1996,7 @@ local OwnedLevelCache = {
   ["Harbinger of Flame"] = 25,
   ["Harmonious Porcupette"] = 1,
   ["Harpy Youngling"] = 4,
+  ["Heartseeker Moth"] = 1,
   ["Horde Balloon"] = 1,
   ["Hungry Burrower"] = 25,
   ["Hyjal Wisp"] = 4,
