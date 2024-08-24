@@ -20,6 +20,7 @@ local function IsCheapPet(auction)
     local buyoutPrice = auction[10]
     local ownedLevel = PetCache.OwnedLevel(name)
 
+    -- Is this pet an upgrade?
     --if petLevel <= ownedLevel then
     --    -- We already have a better pet
     --    return
@@ -30,7 +31,7 @@ local function IsCheapPet(auction)
     end
 
     -- The pet is of interest, but is it cheap?
-    local valueForLevel = 1000000 + 2000000*(petLevel-1)/24
+    local valueForLevel = 3000000 + 2000000*(petLevel-1)/24
     if buyoutPrice <= valueForLevel then
         -- This pet is worth buying!
         local itemKey = {
