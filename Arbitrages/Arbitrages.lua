@@ -65,7 +65,11 @@ end
 local function FindArbitrages(firstAuction, numAuctions)
     local foundArbitrage = false
 
-    PrettyPrint("Searching for arbitrages in", firstAuction, "-", numAuctions,"auctions...")
+    -- How loaded is the AH? At its lightest load it can do almost 100,000 auctions
+    -- in 30 seconds (the current delay between calls to this function).
+    local ahCapacity = string.format("[%0.2f]", (numAuctions - firstAuction) / 100000)
+
+    PrettyPrint("Searching for arbitrages in", firstAuction, "-", numAuctions, "auctions...  ", ahCapacity)
 
     -- Optimization: Create local function pointers so we only
     -- search for the function in the global namespace once,
