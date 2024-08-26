@@ -12,6 +12,7 @@ Slash commands usable in the chat window
 * /dump - general debugging
 * /etrace - showing events
 * /fstack - debugging visible UI elements
+* /tableinspect - interactive table inspection
 
 ## Single Threaded
 
