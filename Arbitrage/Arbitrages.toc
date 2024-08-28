@@ -1,10 +1,10 @@
 ## Interface: 110002
 ## Version: 1.0.0
-## Title: Arbitrages
+## Title: Arbitrage
 ## Notes: Finds arbitrages in the auction house https://github.com/erikbryant/wowArbitrages
 ## Author: Erik Bryant (erikbryantology@gmail.com)
 ## SavedVariables:
 
 PetCache.lua
 PriceCache.lua
-Arbitrages.lua
+Arbitrage.lua

@@ -3,7 +3,7 @@ C_CVar.SetCVar("scriptErrors", 1)
 
 -- Print a message with the addon name (in color) as a prefix
 local function PrettyPrint(...)
-    local prefix = WrapTextInColorCode("Arbitrages: ", "cfF00CCF")
+    local prefix = WrapTextInColorCode("Arbitrage: ", "cfF00CCF")
     print(prefix, ...)
 end
 
@@ -143,10 +143,10 @@ local function OnEvent(self, event)
    end
 end
 
-local Arbitrages = CreateFrame("Frame", "Arbitrages", UIParent)
-Arbitrages:Hide()
-Arbitrages:SetScript("OnEvent", OnEvent)
-Arbitrages:RegisterEvent("AUCTION_HOUSE_SHOW")
-Arbitrages:RegisterEvent("AUCTION_HOUSE_CLOSED")
+local Arbitrage = CreateFrame("Frame", "Arbitrage", UIParent)
+Arbitrage:Hide()
+Arbitrage:SetScript("OnEvent", OnEvent)
+Arbitrage:RegisterEvent("AUCTION_HOUSE_SHOW")
+Arbitrage:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
 PrettyPrint("Loaded and ready to scan!")

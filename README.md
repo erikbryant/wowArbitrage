@@ -1,6 +1,6 @@
 # World of Warcraft Auction House Addon
 
-Arbitrages searches the auction house for arbitrage opportunities. When it finds them it sets them as favorites in the auction house.
+Arbitrage searches the auction house for arbitrage opportunities. When it finds them it sets them as favorites in the auction house.
 
 ## Development links, tips
 

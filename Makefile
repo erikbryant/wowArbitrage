@@ -1,4 +1,4 @@
-ADDON=Arbitrages
+ADDON=Arbitrage
 CACHE_DIR=../wow/generated
 ADDON_DIR=/Applications/World\ of\ Warcraft/_retail_/Interface/AddOns
 
@@ -10,7 +10,7 @@ cache:
 	git diff $(ADDON)
 
 install: uninstall
-	cp -R Arbitrages $(ADDON_DIR)
+	cp -R $(ADDON) $(ADDON_DIR)
 
 # Targets that do not represent actual files
 .PHONY: uninstall cache install
