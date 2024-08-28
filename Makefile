@@ -1,14 +1,16 @@
+ADDON=Arbitrages
 CACHE_DIR=../wow/generated
 ADDON_DIR=/Applications/World\ of\ Warcraft/_retail_/Interface/AddOns
 
 uninstall:
-	rm -rf $(ADDON_DIR)/Arbitrages
+	rm -rf $(ADDON_DIR)/$(ADDON)
 
-cacheFiles:
-	cp $(CACHE_DIR)/*.lua ./Arbitrages/
+cache:
+	cp $(CACHE_DIR)/*.lua ./$(ADDON)
+	git diff $(ADDON)
 
-install: uninstall cacheFiles
+install: uninstall
 	cp -R Arbitrages $(ADDON_DIR)
 
 # Targets that do not represent actual files
-.PHONY: uninstall cacheFiles install
+.PHONY: uninstall cache install
