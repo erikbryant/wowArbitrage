@@ -69,7 +69,7 @@ local function FindArbitrages(firstAuction, numAuctions)
     -- in 30 seconds (the current delay between calls to this function).
     local ahCapacity = string.format("[%0.2f]", (numAuctions - firstAuction) / 200000)
 
-    PrettyPrint("Searching for arbitrages in", firstAuction, "-", numAuctions, "auctions...  ", ahCapacity)
+    PrettyPrint("Searching for arbitrages in", firstAuction, "-", numAuctions, "auctions  ", ahCapacity)
 
     -- Optimization: Create local function pointers so we only
     -- search for the function in the global namespace once,
@@ -116,6 +116,9 @@ local function CheckForAuctionResults()
     else
         -- numAuctions > 0 and not numAuctions == NumAuctionsFoundLastCheck
         -- Received some auction results!
+        if NumAuctionsFoundLastCheck > numAuctions then
+            NumAuctionsFoundLastCheck = 0
+        end
         FindArbitrages(NumAuctionsFoundLastCheck, numAuctions)
         FindPetBargains(NumAuctionsFoundLastCheck, numAuctions)
     end
