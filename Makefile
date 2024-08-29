@@ -21,4 +21,4 @@ install: uninstall
 upgrade: $(ADDON)/$(CACHE_PET) $(ADDON)/$(CACHE_PRICE) install
 
 # Targets that do not represent actual files
-.PHONY: uninstall cache install upgrade
+.PHONY: uninstall install upgrade
