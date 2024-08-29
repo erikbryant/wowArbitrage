@@ -129,12 +129,26 @@ local function CheckForAuctionResults()
     C_Timer.After(30, CheckForAuctionResults)
 end
 
+-- When the commodities buy frame opens, if this is a favorite unfavorite it
+-- This removes one manual step, speeding up the bulk buying process
+local function Unfavorite()
+    if not AuctionHouseOpen then
+        return
+    end
+    local favoriteButton = AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.ItemDisplay.FavoriteButton
+    if favoriteButton:IsFavorite() then
+        C_AuctionHouse.SetFavoriteItem(favoriteButton.itemKey, false)
+    end
+    C_Timer.After(1, Unfavorite)
+end
+
 -- Dispatch an incoming event
 local function OnEvent(self, event)
     if event == "AUCTION_HOUSE_SHOW" then
         AuctionHouseOpen = true
         PrettyPrint("Welcome to the auction house. Starting scan...")
         C_Timer.After(1, CheckForAuctionResults)
+        C_Timer.After(1, Unfavorite)
         if C_AuctionHouse.HasFavorites() then
             PrettyPrint("*** Delete your AH favorites! ***")
         end
