@@ -1905,6 +1905,7 @@ end
 
 local OwnedLevelCache = {
   ["Abyssius"] = 8,
+  ["Adventurous Hopling"] = 1,
   ["Albatross Hatchling"] = 1,
   ["Albino Chimaeraling"] = 25,
   ["Albino Snake"] = 25,
