@@ -2113,6 +2113,7 @@ local OwnedLevelCache = {
   ["Snoozles"] = 6,
   ["Snort"] = 1,
   ["Snowshoe Hare"] = 6,
+  ["Sophic Amalgamation"] = 1,
   ["Soul of the Forge"] = 1,
   ["Soulbroken Whelpling"] = 4,
   ["Sparkleshell Sandcrawler"] = 1,
