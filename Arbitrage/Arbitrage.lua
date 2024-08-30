@@ -104,7 +104,6 @@ local NumAuctionsFoundLastCheck = 0
 -- Loop until the AH closes, processing new results as they become available
 local function CheckForAuctionResults()
     if not AuctionHouseOpen then
-        PrettyPrint("Auction house is closed")
         return
     end
 
@@ -129,16 +128,37 @@ local function CheckForAuctionResults()
     C_Timer.After(30, CheckForAuctionResults)
 end
 
+-- The buy quantify field goes blank after a purchase. Default it to 1.
+local function SetMinBuy()
+    if not AuctionHouseOpen then
+        return
+    end
+
+    -- This is OK to do even if the frame is not visible
+    local quantityInput = AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.QuantityInput
+    if quantityInput:GetQuantity() == 0 then
+        quantityInput:SetQuantity(1)
+        quantityInput.InputBox:inputChangedCallback()
+    end
+
+    C_Timer.After(1, SetMinBuy)
+end
+
 -- When the commodities buy frame opens, if this is a favorite unfavorite it
 -- This removes one manual step, speeding up the bulk buying process
 local function Unfavorite()
     if not AuctionHouseOpen then
         return
     end
-    local favoriteButton = AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.ItemDisplay.FavoriteButton
-    if favoriteButton:IsFavorite() then
-        C_AuctionHouse.SetFavoriteItem(favoriteButton.itemKey, false)
+
+    local itemDisplay = AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.ItemDisplay
+    if itemDisplay:IsVisible() then
+        local favoriteButton = itemDisplay.FavoriteButton
+        if favoriteButton:IsFavorite() then
+            C_AuctionHouse.SetFavoriteItem(favoriteButton.itemKey, false)
+        end
     end
+
     C_Timer.After(1, Unfavorite)
 end
 
@@ -149,11 +169,13 @@ local function OnEvent(self, event)
         PrettyPrint("Welcome to the auction house. Starting scan...")
         C_Timer.After(1, CheckForAuctionResults)
         C_Timer.After(1, Unfavorite)
+        C_Timer.After(1, SetMinBuy)
         if C_AuctionHouse.HasFavorites() then
             PrettyPrint("*** Delete your AH favorites! ***")
         end
     elseif event == "AUCTION_HOUSE_CLOSED" then
         AuctionHouseOpen = false
+        PrettyPrint("Auction house is closed")
    end
 end
 
