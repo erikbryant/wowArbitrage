@@ -156,6 +156,7 @@ local function Unfavorite()
         local favoriteButton = itemDisplay.FavoriteButton
         if favoriteButton:IsFavorite() then
             C_AuctionHouse.SetFavoriteItem(favoriteButton.itemKey, false)
+            favoriteButton:UpdateFavoriteState()
         end
     end
 
