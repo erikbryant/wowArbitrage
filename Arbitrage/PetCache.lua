@@ -2123,6 +2123,7 @@ local OwnedLevelCache = {
   ["Soulbroken Whelpling"] = 4,
   ["Sparkleshell Sandcrawler"] = 1,
   ["Spawn of G'nathus"] = 1,
+  ["Spectral Porcupette"] = 1,
   ["Spinemaw Gormling"] = 1,
   ["Spirit of the Spring"] = 1,
   ["Spring Rabbit"] = 25,
