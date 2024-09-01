@@ -2109,6 +2109,7 @@ local OwnedLevelCache = {
   ["Sewer-Pipe Jelly"] = 4,
   ["Shadefeather Hatchling"] = 1,
   ["Shimmerbough Hoarder"] = 1,
+  ["Siamese Cat"] = 1,
   ["Sinister Squashling"] = 6,
   ["Sister of Temptation"] = 15,
   ["Slithershock Elver"] = 1,
