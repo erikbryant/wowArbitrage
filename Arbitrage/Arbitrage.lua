@@ -1,6 +1,7 @@
 local ADDON_NAME = "Arbitrage"
 local AuctionHouseOpen = false
 local NumAuctionsFoundLastCheck = 0
+local FavoritesCreated = {}
 
 -- Print a message with the addon name (in color) as a prefix
 local function PrettyPrint(...)
@@ -42,6 +43,7 @@ local function IsCheapPet(auction)
             battlePetSpeciesID = PetCache.SpeciesId(name),
         }
         C_AuctionHouse.SetFavoriteItem(itemKey, true)
+        table.insert(FavoritesCreated, itemKey)
         PrettyPrint("Consider buying", name, ownedLevel, "->", petLevel, "@", GetCoinTextureString(buyoutPrice))
     end
 end
@@ -75,12 +77,6 @@ local function FindArbitrages(firstAuction, numAuctions)
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
     local vendorSellPrice = PriceCache.VendorSellPrice
     local foundArbitrage = false
-    local itemKey = {
-        itemID = 0,
-        itemLevel = 0,
-        itemSuffix = 0,
-        battlePetSpeciesID = 0,
-    }
 
     for i = firstAuction, numAuctions-1 do
         local auction = {getReplicateItemInfo(i)}
@@ -88,8 +84,14 @@ local function FindArbitrages(firstAuction, numAuctions)
         local itemID = auction[17]
         if buyoutPrice > 0 and buyoutPrice < vendorSellPrice(itemID) then
             foundArbitrage = true
-            itemKey.itemID = itemID
+            local itemKey = {
+                itemID = itemID,
+                itemLevel = 0,
+                itemSuffix = 0,
+                battlePetSpeciesID = 0,
+            }
             C_AuctionHouse.SetFavoriteItem(itemKey, true)
+            table.insert(FavoritesCreated, itemKey)
         end
     end
 
@@ -183,26 +185,35 @@ Arbitrage:SetScript("OnEvent", OnEvent)
 Arbitrage:RegisterEvent("AUCTION_HOUSE_SHOW")
 Arbitrage:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
+-- RemoveFavorites removes all of the favorites that were created this login session
+local function RemoveFavorites()
+    for _, itemKey in pairs(FavoritesCreated) do
+        C_AuctionHouse.SetFavoriteItem(itemKey, false)
+    end
+    FavoritesCreated = {}
+end
+
 -- SlashUsage prints a usage message for the slash commands
 local function SlashUsage()
     PrettyPrint("Usage '/aha [command]' where command is:")
-    PrettyPrint("                         - show current settings")
-    PrettyPrint("  errors enable  - enable error reporting")
-    PrettyPrint("  errors disable - disable error reporting")
+    PrettyPrint("                             - show current settings")
+    PrettyPrint("  favorites delete  - delete session favorites")
+    PrettyPrint("  debug on            - enable debugging")
+    PrettyPrint("  debug off            - disable debugging")
 end
 
 -- SlashHandler processes the slash command the player typed
-local function SlashHandler(msg, editBox)
-    -- msg     = what the user typed
-    -- editBox = the chat frame the slash command originated from
-
+local function SlashHandler(msg, ...)
+    msg = string.lower(msg)
     if msg == "" then
-        PrettyPrint("Errors      =", C_CVar.GetCVar("scriptErrors"))
+        PrettyPrint("Show errors =", C_CVar.GetCVar("scriptErrors"))
         SlashUsage()
-    elseif msg == "errors enable" then
+    elseif msg == "favorites delete" or msg == "fd" then
+        RemoveFavorites()
+    elseif msg == "debug on" then
         C_CVar.SetCVar("scriptErrors", 1)
         PrettyPrint("Errors enabled")
-    elseif msg == "errors disable" then
+    elseif msg == "debug off" then
         C_CVar.SetCVar("scriptErrors", 0)
         PrettyPrint("Errors disabled")
     else
