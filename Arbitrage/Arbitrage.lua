@@ -1,9 +1,10 @@
--- Enable script error reporting
-C_CVar.SetCVar("scriptErrors", 1)
+local ADDON_NAME = "Arbitrage"
+local AuctionHouseOpen = false
+local NumAuctionsFoundLastCheck = 0
 
 -- Print a message with the addon name (in color) as a prefix
 local function PrettyPrint(...)
-    local prefix = WrapTextInColorCode("Arbitrage: ", "cfF00CCF")
+    local prefix = WrapTextInColorCode(ADDON_NAME, "cfF00CCF")
     print(prefix, ...)
 end
 
@@ -63,19 +64,23 @@ end
 
 -- Create an AH favorite for each auction that is an arbitrage
 local function FindArbitrages(firstAuction, numAuctions)
-    local foundArbitrage = false
-
     -- How loaded is the AH? At its lightest load it can do almost 200,000 auctions
     -- in 30 seconds (the current delay between calls to this function).
     local ahCapacity = string.format("[%0.2f]", (numAuctions - firstAuction) / 200000)
-
-    PrettyPrint("Searching for arbitrages in", firstAuction, "-", numAuctions, "auctions ", ahCapacity)
+    PrettyPrint("Searching auctions", firstAuction, "-", numAuctions, ahCapacity)
 
     -- Optimization: Create local function pointers so we only
     -- search for the function in the global namespace once,
     -- instead of on every call.
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
     local vendorSellPrice = PriceCache.VendorSellPrice
+    local foundArbitrage = false
+    local itemKey = {
+        itemID = 0,
+        itemLevel = 0,
+        itemSuffix = 0,
+        battlePetSpeciesID = 0,
+    }
 
     for i = firstAuction, numAuctions-1 do
         local auction = {getReplicateItemInfo(i)}
@@ -83,23 +88,15 @@ local function FindArbitrages(firstAuction, numAuctions)
         local itemID = auction[17]
         if buyoutPrice > 0 and buyoutPrice < vendorSellPrice(itemID) then
             foundArbitrage = true
-            local itemKey = {
-                itemID = itemID,
-                itemLevel = 0,
-                itemSuffix = 0,
-                battlePetSpeciesID = 0,
-            }
+            itemKey.itemID = itemID
             C_AuctionHouse.SetFavoriteItem(itemKey, true)
         end
     end
 
     if foundArbitrage then
-        PrettyPrint("Arbitrage auction(s) found and added to favorites!")
+        PrettyPrint("Arbitrage auctions found and added to favorites!")
     end
 end
-
-local AuctionHouseOpen = false
-local NumAuctionsFoundLastCheck = 0
 
 -- Loop until the AH closes, processing new results as they become available
 local function CheckForAuctionResults()
@@ -185,5 +182,37 @@ Arbitrage:Hide()
 Arbitrage:SetScript("OnEvent", OnEvent)
 Arbitrage:RegisterEvent("AUCTION_HOUSE_SHOW")
 Arbitrage:RegisterEvent("AUCTION_HOUSE_CLOSED")
+
+-- SlashUsage prints a usage message for the slash commands
+local function SlashUsage()
+    PrettyPrint("Usage '/aha [command]' where command is:")
+    PrettyPrint("                         - show current settings")
+    PrettyPrint("  errors enable  - enable error reporting")
+    PrettyPrint("  errors disable - disable error reporting")
+end
+
+-- SlashHandler processes the slash command the player typed
+local function SlashHandler(msg, editBox)
+    -- msg     = what the user typed
+    -- editBox = the chat frame the slash command originated from
+
+    if msg == "" then
+        PrettyPrint("Errors      =", C_CVar.GetCVar("scriptErrors"))
+        SlashUsage()
+    elseif msg == "errors enable" then
+        C_CVar.SetCVar("scriptErrors", 1)
+        PrettyPrint("Errors enabled")
+    elseif msg == "errors disable" then
+        C_CVar.SetCVar("scriptErrors", 0)
+        PrettyPrint("Errors disabled")
+    else
+        PrettyPrint("Unknown slash command:", msg)
+        SlashUsage()
+    end
+end
+
+-- Register the slash handlers
+_G["SLASH_"..ADDON_NAME.."1"] = "/aha"
+SlashCmdList[ADDON_NAME] = SlashHandler
 
 PrettyPrint("Loaded and ready to scan!")
