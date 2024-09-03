@@ -1970,6 +1970,7 @@ local OwnedLevelCache = {
   ["Crispin"] = 6,
   ["Crusher"] = 1,
   ["Dandelion Frolicker"] = 5,
+  ["Dart"] = 1,
   ["Death Talon Whelpguard"] = 4,
   ["Death's Head Cockroach"] = 21,
   ["Devourer Lobstrok"] = 4,
