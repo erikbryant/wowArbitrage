@@ -2080,6 +2080,7 @@ local OwnedLevelCache = {
   ["Nerubian Swarmer"] = 1,
   ["Nether Ray Fry"] = 1,
   ["Netherspawn, Spawn of Netherspawn"] = 7,
+  ["Nightwreathed Watcher"] = 1,
   ["Nursery Spider"] = 1,
   ["Nuts"] = 9,
   ["Obsidian Hatchling"] = 1,
