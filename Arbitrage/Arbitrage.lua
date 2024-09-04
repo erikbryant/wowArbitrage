@@ -213,25 +213,27 @@ local function SlashUsage()
     PrettyPrint("Usage '/aha [command]' where command is:")
     PrettyPrint("                             - show current settings")
     PrettyPrint("  favorites delete  - delete session favorites")
-    PrettyPrint("  debug on            - enable debugging")
-    PrettyPrint("  debug off            - disable debugging")
+    PrettyPrint("  debug 0/1           - debugging")
 end
 
 -- SlashHandler processes the slash command the player typed
 local function SlashHandler(msg, ...)
     msg = string.lower(msg)
     if msg == "" then
-        PrettyPrint("Version =", ADDON_VERSION)
-        PrettyPrint("Show errors =", C_CVar.GetCVar("scriptErrors"))
+        local debug = ""
+        if C_CVar.GetCVar("scriptErrors") == "1" then
+            debug = "(debug)"
+        end
+        PrettyPrint("v"..ADDON_VERSION, debug)
         SlashUsage()
     elseif msg == "favorites delete" or msg == "fd" then
         RemoveFavorites()
-    elseif msg == "debug on" then
+    elseif msg == "debug 1" or msg == "d1" then
         C_CVar.SetCVar("scriptErrors", 1)
-        PrettyPrint("Errors enabled")
-    elseif msg == "debug off" then
+        PrettyPrint("Debugging enabled")
+    elseif msg == "debug 0" or msg == "d0" then
         C_CVar.SetCVar("scriptErrors", 0)
-        PrettyPrint("Errors disabled")
+        PrettyPrint("Debugging disabled")
     else
         PrettyPrint("Unknown slash command:", msg)
         SlashUsage()
@@ -242,4 +244,4 @@ end
 _G["SLASH_"..ADDON_NAME.."1"] = SLASH_CMD
 SlashCmdList[ADDON_NAME] = SlashHandler
 
-PrettyPrint("Loaded and ready to scan! Type '"..SLASH_CMD.."' for help.")
+PrettyPrint("Type '"..SLASH_CMD.."' for help")
