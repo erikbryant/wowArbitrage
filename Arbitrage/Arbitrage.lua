@@ -8,7 +8,7 @@ local FavoritesCreated = {}
 -- Dump is a wrapper for DevTools_Dump
 local function Dump(maxEntryCutoff, maxDepthCutoff, ...)
     local oldMaxEntryCutoff = _G["DEVTOOLS_MAX_ENTRY_CUTOFF"]
-    local oldMaxDepth Cutoff = _G["DEVTOOLS_DEPTH_CUTOFF"]
+    local oldMaxDepthCutoff = _G["DEVTOOLS_DEPTH_CUTOFF"]
 
     _G["DEVTOOLS_MAX_ENTRY_CUTOFF"] = maxEntryCutoff
     _G["DEVTOOLS_DEPTH_CUTOFF"] = maxDepthCutoff
