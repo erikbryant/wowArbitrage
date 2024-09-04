@@ -226,4 +226,4 @@ end
 _G["SLASH_"..ADDON_NAME.."1"] = "/aha"
 SlashCmdList[ADDON_NAME] = SlashHandler
 
-PrettyPrint("Loaded and ready to scan!")
+PrettyPrint("Loaded and ready to scan! Type '/aha' for help.")
