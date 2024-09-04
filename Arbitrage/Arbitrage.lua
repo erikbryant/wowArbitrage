@@ -1,7 +1,21 @@
 local ADDON_NAME = "Arbitrage"
+local ADDON_VERSION = "0.1.0"
+local SLASH_CMD = "/aha"
 local AuctionHouseOpen = false
 local NumAuctionsFoundLastCheck = 0
 local FavoritesCreated = {}
+
+-- Dump is a wrapper for DevTools_Dump
+local function Dump(maxEntryCutoff, maxDepthCutoff, ...)
+    local oldMaxEntryCutoff = _G["DEVTOOLS_MAX_ENTRY_CUTOFF"]
+    local oldMaxDepth Cutoff = _G["DEVTOOLS_DEPTH_CUTOFF"]
+
+    _G["DEVTOOLS_MAX_ENTRY_CUTOFF"] = maxEntryCutoff
+    _G["DEVTOOLS_DEPTH_CUTOFF"] = maxDepthCutoff
+    DevTools_Dump(...)
+    _G["DEVTOOLS_MAX_ENTRY_CUTOFF"] = oldMaxEntryCutoff
+    _G["DEVTOOLS_DEPTH_CUTOFF"] = oldMaxDepthCutoff
+end
 
 -- Print a message with the addon name (in color) as a prefix
 local function PrettyPrint(...)
@@ -92,6 +106,7 @@ local function FindArbitrages(firstAuction, numAuctions)
             }
             C_AuctionHouse.SetFavoriteItem(itemKey, true)
             table.insert(FavoritesCreated, itemKey)
+            PlaySound(SOUNDKIT.AUCTION_WINDOW_CLOSE);
         end
     end
 
@@ -206,6 +221,7 @@ end
 local function SlashHandler(msg, ...)
     msg = string.lower(msg)
     if msg == "" then
+        PrettyPrint("Version =", ADDON_VERSION)
         PrettyPrint("Show errors =", C_CVar.GetCVar("scriptErrors"))
         SlashUsage()
     elseif msg == "favorites delete" or msg == "fd" then
@@ -223,7 +239,7 @@ local function SlashHandler(msg, ...)
 end
 
 -- Register the slash handlers
-_G["SLASH_"..ADDON_NAME.."1"] = "/aha"
+_G["SLASH_"..ADDON_NAME.."1"] = SLASH_CMD
 SlashCmdList[ADDON_NAME] = SlashHandler
 
-PrettyPrint("Loaded and ready to scan! Type '/aha' for help.")
+PrettyPrint("Loaded and ready to scan! Type '"..SLASH_CMD.."' for help.")
