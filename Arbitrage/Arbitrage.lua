@@ -208,23 +208,28 @@ local function RemoveFavorites()
     FavoritesCreated = {}
 end
 
+-- Version prints the addon version and whether it is in debug mode
+local function Version()
+    local debug = ""
+    if C_CVar.GetCVar("scriptErrors") == "1" then
+        debug = "(debug)"
+    end
+    PrettyPrint("v"..ADDON_VERSION, debug)
+end
+
 -- SlashUsage prints a usage message for the slash commands
 local function SlashUsage()
+    Version()
     PrettyPrint("Usage '/aha [command]' where command is:")
-    PrettyPrint("                             - show current settings")
     PrettyPrint("  favorites delete  - delete session favorites")
     PrettyPrint("  debug 0/1           - debugging")
+    PrettyPrint("  status                 - dump internal state")
 end
 
 -- SlashHandler processes the slash command the player typed
 local function SlashHandler(msg, ...)
     msg = string.lower(msg)
     if msg == "" then
-        local debug = ""
-        if C_CVar.GetCVar("scriptErrors") == "1" then
-            debug = "(debug)"
-        end
-        PrettyPrint("v"..ADDON_VERSION, debug)
         SlashUsage()
     elseif msg == "favorites delete" or msg == "fd" then
         RemoveFavorites()
@@ -234,6 +239,11 @@ local function SlashHandler(msg, ...)
     elseif msg == "debug 0" or msg == "d0" then
         C_CVar.SetCVar("scriptErrors", 0)
         PrettyPrint("Debugging disabled")
+    elseif msg == "status" or msg == "s" then
+        Version()
+        PrettyPrint("AuctionHouseOpen:", AuctionHouseOpen)
+        PrettyPrint("NumAuctionsFoundLastCheck:", NumAuctionsFoundLastCheck)
+        PrettyPrint("#FavoritesCreated:", #FavoritesCreated)
     else
         PrettyPrint("Unknown slash command:", msg)
         SlashUsage()
