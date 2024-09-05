@@ -2067,6 +2067,7 @@ local OwnedLevelCache = {
   ["Mechanical Axebeak"] = 25,
   ["Mechanical Pandaren Dragonling"] = 1,
   ["Mechanical Scorpid"] = 25,
+  ["Memorie"] = 1,
   ["Menagerie Custodian"] = 1,
   ["Micromancer"] = 1,
   ["Minfernal"] = 15,
