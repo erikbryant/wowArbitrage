@@ -1,5 +1,5 @@
 local ADDON_NAME = "Arbitrage"
-local ADDON_VERSION = "0.1.0"
+local ADDON_VERSION = "0.1.1"
 local SLASH_CMD = "/aha"
 local AuctionHouseOpen = false
 local NumAuctionsFoundLastCheck = 0
