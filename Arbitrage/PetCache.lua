@@ -2215,7 +2215,7 @@ local function OwnedLevel(speciesID)
     return OwnedLevelCache[speciesID] or 0
 end
 
-PetCache = {
+AhaPetCache = {
   SpeciesId = SpeciesId,
   OwnedLevel = OwnedLevel,
 }

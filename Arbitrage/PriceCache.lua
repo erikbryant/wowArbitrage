@@ -10274,6 +10274,6 @@ end
 -- Validate the sell price cache
 C_Timer.After(1, validatePriceCache)
 
-PriceCache = {
+AhaPriceCache = {
   VendorSellPrice = VendorSellPrice,
 }
