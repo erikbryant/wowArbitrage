@@ -1,4 +1,3 @@
-local AuctionHouseOpen = false
 local NumAuctionsFoundLastCheck = 0
 local FavoritesCreated = {}
 
@@ -96,7 +95,7 @@ end
 
 -- Loop until the AH closes, processing new results as they become available
 local function CheckForAuctionResults()
-    if not AuctionHouseOpen then
+    if not AhaUtil.IsAHOpen() then
         return
     end
 
@@ -121,41 +120,6 @@ local function CheckForAuctionResults()
     C_Timer.After(30, CheckForAuctionResults)
 end
 
--- The buy quantify field goes blank after a purchase. Default it to 1.
-local function SetMinBuy()
-    if not AuctionHouseOpen then
-        return
-    end
-
-    -- This is OK to do even if the frame is not visible
-    local quantityInput = AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.QuantityInput
-    if quantityInput:GetQuantity() == 0 then
-        quantityInput:SetQuantity(1)
-        quantityInput.InputBox:inputChangedCallback()
-    end
-
-    C_Timer.After(1, SetMinBuy)
-end
-
--- When the commodities buy frame opens, if this is a favorite unfavorite it
--- This removes one manual step, speeding up the bulk buying process
-local function Unfavorite()
-    if not AuctionHouseOpen then
-        return
-    end
-
-    local itemDisplay = AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.ItemDisplay
-    if itemDisplay:IsVisible() then
-        local favoriteButton = itemDisplay.FavoriteButton
-        if favoriteButton:IsFavorite() then
-            C_AuctionHouse.SetFavoriteItem(favoriteButton.itemKey, false)
-            favoriteButton:UpdateFavoriteState()
-        end
-    end
-
-    C_Timer.After(1, Unfavorite)
-end
-
 -- RemoveFavorites removes all of the favorites that were created this login session
 local function RemoveFavorites()
     for _, itemKey in pairs(FavoritesCreated) do
@@ -165,7 +129,6 @@ local function RemoveFavorites()
 end
 
 local function Status()
-    AhaUtil.PrettyPrint("AuctionHouseOpen:", AuctionHouseOpen)
     AhaUtil.PrettyPrint("NumAuctionsFoundLastCheck:", NumAuctionsFoundLastCheck)
     AhaUtil.PrettyPrint("#FavoritesCreated:", #FavoritesCreated)
 end
@@ -173,17 +136,13 @@ end
 -- Dispatch an incoming event
 local function OnEvent(self, event)
     if event == "AUCTION_HOUSE_SHOW" then
-        AuctionHouseOpen = true
         AhaUtil.PrettyPrint("Welcome to the auction house. Starting scan...")
         C_Timer.After(1, CheckForAuctionResults)
-        C_Timer.After(1, Unfavorite)
-        C_Timer.After(1, SetMinBuy)
+        C_Timer.After(1, AhaPatches.Unfavorite)
+        C_Timer.After(1, AhaPatches.SetMinBuy)
         if C_AuctionHouse.HasFavorites() then
             AhaUtil.PrettyPrint("*** Delete your AH favorites! ***")
         end
-    elseif event == "AUCTION_HOUSE_CLOSED" then
-        AuctionHouseOpen = false
-        AhaUtil.PrettyPrint("Auction house is closed")
    end
 end
 
@@ -191,7 +150,6 @@ local Arbitrage = CreateFrame("Frame", "Arbitrage", UIParent)
 Arbitrage:Hide()
 Arbitrage:SetScript("OnEvent", OnEvent)
 Arbitrage:RegisterEvent("AUCTION_HOUSE_SHOW")
-Arbitrage:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
 AhaMain = {
     RemoveFavorites = RemoveFavorites,

@@ -25,8 +25,14 @@ local function Version()
     return "v"..AhaGlobal.ADDON_VERSION.." "..debug
 end
 
+-- IsAHOpen returns true if the auction house is open
+local function IsAHOpen()
+    return AuctionHouseFrame.NineSlice:IsVisible()
+end
+
 AhaUtil = {
     Dump = Dump,
+    IsAHOpen = IsAHOpen,
     PrettyPrint = PrettyPrint,
     Version = Version,
 }
