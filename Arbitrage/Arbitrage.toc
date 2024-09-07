@@ -1,7 +1,7 @@
 ## Interface: 110002
-## Version: 1.0.0
+## Version: 0.1.4
 ## Title: Arbitrage
-## Notes: Finds arbitrages in the auction house https://github.com/erikbryant/wowArbitrage
+## Notes: Finds arbitrages in the WoW auction house https://github.com/erikbryant/wowArbitrage
 ## Author: Erik Bryant (erikbryantology@gmail.com)
 ## SavedVariables:
 

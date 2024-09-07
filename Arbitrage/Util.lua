@@ -12,20 +12,20 @@ end
 
 -- Print a message with the addon name (in color) as a prefix
 local function PrettyPrint(...)
-    local prefix = WrapTextInColorCode(Global.ADDON_NAME, "cfF00CCF")
+    local prefix = WrapTextInColorCode(AhaGlobal.ADDON_NAME, "cfF00CCF")
     print(prefix, ...)
 end
 
--- Version prints the addon version and whether it is in debug mode
+-- Version returns the addon version and whether it is in debug mode
 local function Version()
     local debug = ""
     if C_CVar.GetCVar("scriptErrors") == "1" then
         debug = "(debug)"
     end
-    PrettyPrint("v"..Global.ADDON_VERSION, debug)
+    return "v"..AhaGlobal.ADDON_VERSION.." "..debug
 end
 
-Util = {
+AhaUtil = {
     Dump = Dump,
     PrettyPrint = PrettyPrint,
     Version = Version,

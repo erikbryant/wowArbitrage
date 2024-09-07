@@ -13,7 +13,7 @@ local function IsCheapPet(auction)
     local name = auction[1]
     local petLevel = auction[6]
     local buyoutPrice = auction[10]
-    local ownedLevel = PetCache.OwnedLevel(name)
+    local ownedLevel = AhaPetCache.OwnedLevel(name)
 
     -- Is this pet an upgrade?
     --if petLevel <= ownedLevel then
@@ -33,11 +33,11 @@ local function IsCheapPet(auction)
             itemID = auction[17],
             itemLevel = 0,
             itemSuffix = 0,
-            battlePetSpeciesID = PetCache.SpeciesId(name),
+            battlePetSpeciesID = AhaPetCache.SpeciesId(name),
         }
         C_AuctionHouse.SetFavoriteItem(itemKey, true)
         table.insert(FavoritesCreated, itemKey)
-        Util.PrettyPrint("Consider buying", name, ownedLevel, "->", petLevel, "@", GetCoinTextureString(buyoutPrice))
+        AhaUtil.PrettyPrint("Consider buying", name, ownedLevel, "->", petLevel, "@", GetCoinTextureString(buyoutPrice))
     end
 end
 
@@ -62,13 +62,13 @@ local function FindArbitrages(firstAuction, numAuctions)
     -- How loaded is the AH? At its lightest load it can do almost 200,000 auctions
     -- in 30 seconds (the current delay between calls to this function).
     local ahCapacity = string.format("[%0.2f]", (numAuctions - firstAuction) / 200000)
-    Util.PrettyPrint("Searching auctions", firstAuction, "-", numAuctions, ahCapacity)
+    AhaUtil.PrettyPrint("Searching auctions", firstAuction, "-", numAuctions, ahCapacity)
 
     -- Optimization: Create local function pointers so we only
     -- search for the function in the global namespace once,
     -- instead of on every call.
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
-    local vendorSellPrice = PriceCache.VendorSellPrice
+    local vendorSellPrice = AhaPriceCache.VendorSellPrice
     local foundArbitrage = false
 
     for i = firstAuction, numAuctions-1 do
@@ -90,7 +90,7 @@ local function FindArbitrages(firstAuction, numAuctions)
     end
 
     if foundArbitrage then
-        Util.PrettyPrint("Arbitrage auctions found and added to favorites!")
+        AhaUtil.PrettyPrint("Arbitrage auctions found and added to favorites!")
     end
 end
 
@@ -164,20 +164,26 @@ local function RemoveFavorites()
     FavoritesCreated = {}
 end
 
+local function Status()
+    AhaUtil.PrettyPrint("AuctionHouseOpen:", AuctionHouseOpen)
+    AhaUtil.PrettyPrint("NumAuctionsFoundLastCheck:", NumAuctionsFoundLastCheck)
+    AhaUtil.PrettyPrint("#FavoritesCreated:", #FavoritesCreated)
+end
+
 -- Dispatch an incoming event
 local function OnEvent(self, event)
     if event == "AUCTION_HOUSE_SHOW" then
         AuctionHouseOpen = true
-        Util.PrettyPrint("Welcome to the auction house. Starting scan...")
+        AhaUtil.PrettyPrint("Welcome to the auction house. Starting scan...")
         C_Timer.After(1, CheckForAuctionResults)
         C_Timer.After(1, Unfavorite)
         C_Timer.After(1, SetMinBuy)
         if C_AuctionHouse.HasFavorites() then
-            Util.PrettyPrint("*** Delete your AH favorites! ***")
+            AhaUtil.PrettyPrint("*** Delete your AH favorites! ***")
         end
     elseif event == "AUCTION_HOUSE_CLOSED" then
         AuctionHouseOpen = false
-        Util.PrettyPrint("Auction house is closed")
+        AhaUtil.PrettyPrint("Auction house is closed")
    end
 end
 
@@ -187,4 +193,9 @@ Arbitrage:SetScript("OnEvent", OnEvent)
 Arbitrage:RegisterEvent("AUCTION_HOUSE_SHOW")
 Arbitrage:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
-Util.PrettyPrint("For help type:", Global.SLASH_CMD)
+AhaMain = {
+    RemoveFavorites = RemoveFavorites,
+    Status = Status,
+}
+
+AhaUtil.PrettyPrint(AhaUtil.Version(), "For help type:", AhaGlobal.SLASH_CMD)
