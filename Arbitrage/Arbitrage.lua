@@ -254,4 +254,4 @@ end
 _G["SLASH_"..ADDON_NAME.."1"] = SLASH_CMD
 SlashCmdList[ADDON_NAME] = SlashHandler
 
-PrettyPrint("Type '"..SLASH_CMD.."' for help")
+PrettyPrint("For help type:", SLASH_CMD)
