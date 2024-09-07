@@ -5,6 +5,9 @@
 ## Author: Erik Bryant (erikbryantology@gmail.com)
 ## SavedVariables:
 
+Global.lua
+Util.lua
 PetCache.lua
 PriceCache.lua
+Slash.lua
 Arbitrage.lua

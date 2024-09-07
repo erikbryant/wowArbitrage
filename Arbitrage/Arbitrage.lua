@@ -1,27 +1,6 @@
-local ADDON_NAME = "Arbitrage"
-local ADDON_VERSION = "0.1.1"
-local SLASH_CMD = "/aha"
 local AuctionHouseOpen = false
 local NumAuctionsFoundLastCheck = 0
 local FavoritesCreated = {}
-
--- Dump is a wrapper for DevTools_Dump
-local function Dump(maxEntryCutoff, maxDepthCutoff, ...)
-    local oldMaxEntryCutoff = _G["DEVTOOLS_MAX_ENTRY_CUTOFF"]
-    local oldMaxDepthCutoff = _G["DEVTOOLS_DEPTH_CUTOFF"]
-
-    _G["DEVTOOLS_MAX_ENTRY_CUTOFF"] = maxEntryCutoff
-    _G["DEVTOOLS_DEPTH_CUTOFF"] = maxDepthCutoff
-    DevTools_Dump(...)
-    _G["DEVTOOLS_MAX_ENTRY_CUTOFF"] = oldMaxEntryCutoff
-    _G["DEVTOOLS_DEPTH_CUTOFF"] = oldMaxDepthCutoff
-end
-
--- Print a message with the addon name (in color) as a prefix
-local function PrettyPrint(...)
-    local prefix = WrapTextInColorCode(ADDON_NAME, "cfF00CCF")
-    print(prefix, ...)
-end
 
 -- If this pet auction is a good bargain, add it as an AH favorite
 local function IsCheapPet(auction)
@@ -58,7 +37,7 @@ local function IsCheapPet(auction)
         }
         C_AuctionHouse.SetFavoriteItem(itemKey, true)
         table.insert(FavoritesCreated, itemKey)
-        PrettyPrint("Consider buying", name, ownedLevel, "->", petLevel, "@", GetCoinTextureString(buyoutPrice))
+        Util.PrettyPrint("Consider buying", name, ownedLevel, "->", petLevel, "@", GetCoinTextureString(buyoutPrice))
     end
 end
 
@@ -83,7 +62,7 @@ local function FindArbitrages(firstAuction, numAuctions)
     -- How loaded is the AH? At its lightest load it can do almost 200,000 auctions
     -- in 30 seconds (the current delay between calls to this function).
     local ahCapacity = string.format("[%0.2f]", (numAuctions - firstAuction) / 200000)
-    PrettyPrint("Searching auctions", firstAuction, "-", numAuctions, ahCapacity)
+    Util.PrettyPrint("Searching auctions", firstAuction, "-", numAuctions, ahCapacity)
 
     -- Optimization: Create local function pointers so we only
     -- search for the function in the global namespace once,
@@ -111,7 +90,7 @@ local function FindArbitrages(firstAuction, numAuctions)
     end
 
     if foundArbitrage then
-        PrettyPrint("Arbitrage auctions found and added to favorites!")
+        Util.PrettyPrint("Arbitrage auctions found and added to favorites!")
     end
 end
 
@@ -177,20 +156,28 @@ local function Unfavorite()
     C_Timer.After(1, Unfavorite)
 end
 
+-- RemoveFavorites removes all of the favorites that were created this login session
+local function RemoveFavorites()
+    for _, itemKey in pairs(FavoritesCreated) do
+        C_AuctionHouse.SetFavoriteItem(itemKey, false)
+    end
+    FavoritesCreated = {}
+end
+
 -- Dispatch an incoming event
 local function OnEvent(self, event)
     if event == "AUCTION_HOUSE_SHOW" then
         AuctionHouseOpen = true
-        PrettyPrint("Welcome to the auction house. Starting scan...")
+        Util.PrettyPrint("Welcome to the auction house. Starting scan...")
         C_Timer.After(1, CheckForAuctionResults)
         C_Timer.After(1, Unfavorite)
         C_Timer.After(1, SetMinBuy)
         if C_AuctionHouse.HasFavorites() then
-            PrettyPrint("*** Delete your AH favorites! ***")
+            Util.PrettyPrint("*** Delete your AH favorites! ***")
         end
     elseif event == "AUCTION_HOUSE_CLOSED" then
         AuctionHouseOpen = false
-        PrettyPrint("Auction house is closed")
+        Util.PrettyPrint("Auction house is closed")
    end
 end
 
@@ -200,58 +187,4 @@ Arbitrage:SetScript("OnEvent", OnEvent)
 Arbitrage:RegisterEvent("AUCTION_HOUSE_SHOW")
 Arbitrage:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
--- RemoveFavorites removes all of the favorites that were created this login session
-local function RemoveFavorites()
-    for _, itemKey in pairs(FavoritesCreated) do
-        C_AuctionHouse.SetFavoriteItem(itemKey, false)
-    end
-    FavoritesCreated = {}
-end
-
--- Version prints the addon version and whether it is in debug mode
-local function Version()
-    local debug = ""
-    if C_CVar.GetCVar("scriptErrors") == "1" then
-        debug = "(debug)"
-    end
-    PrettyPrint("v"..ADDON_VERSION, debug)
-end
-
--- SlashUsage prints a usage message for the slash commands
-local function SlashUsage()
-    Version()
-    PrettyPrint("Usage '/aha [command]' where command is:")
-    PrettyPrint("  favorites delete  - delete session favorites")
-    PrettyPrint("  debug 0/1           - debugging")
-    PrettyPrint("  status                 - dump internal state")
-end
-
--- SlashHandler processes the slash command the player typed
-local function SlashHandler(msg, ...)
-    msg = string.lower(msg)
-    if msg == "" then
-        SlashUsage()
-    elseif msg == "favorites delete" or msg == "fd" then
-        RemoveFavorites()
-    elseif msg == "debug 1" or msg == "d1" then
-        C_CVar.SetCVar("scriptErrors", 1)
-        PrettyPrint("Debugging enabled")
-    elseif msg == "debug 0" or msg == "d0" then
-        C_CVar.SetCVar("scriptErrors", 0)
-        PrettyPrint("Debugging disabled")
-    elseif msg == "status" or msg == "s" then
-        Version()
-        PrettyPrint("AuctionHouseOpen:", AuctionHouseOpen)
-        PrettyPrint("NumAuctionsFoundLastCheck:", NumAuctionsFoundLastCheck)
-        PrettyPrint("#FavoritesCreated:", #FavoritesCreated)
-    else
-        PrettyPrint("Unknown slash command:", msg)
-        SlashUsage()
-    end
-end
-
--- Register the slash handlers
-_G["SLASH_"..ADDON_NAME.."1"] = SLASH_CMD
-SlashCmdList[ADDON_NAME] = SlashHandler
-
-PrettyPrint("For help type:", SLASH_CMD)
+Util.PrettyPrint("For help type:", Global.SLASH_CMD)
