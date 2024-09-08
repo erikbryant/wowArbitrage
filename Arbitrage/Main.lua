@@ -128,14 +128,6 @@ local function Status()
     AhaUtil.PrettyPrint("#Timers:", #Timers)
 end
 
--- StartTimers creates recurring timers for each callback
-local function StartTimers()
-    Timers = {}
-    Timers[#Timers+1] = C_Timer.NewTicker(30, CheckForAuctionResults)
-    Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.Unfavorite)
-    Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.SetMinBuy)
-end
-
 -- CancelTimers cancels each timer StartTimers started
 local function CancelTimers()
     for _, timer in pairs(Timers) do
@@ -144,17 +136,25 @@ local function CancelTimers()
     Timers = {}
 end
 
+-- StartTimers creates recurring timers for each callback
+local function StartTimers()
+    CancelTimers()
+    Timers[#Timers+1] = C_Timer.NewTicker(30, CheckForAuctionResults)
+    Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.Unfavorite)
+    Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.SetMinBuy)
+end
+
 -- Dispatch an incoming event
 local function OnEvent(self, event)
     if event == "AUCTION_HOUSE_SHOW" then
-        AhaUtil.PrettyPrint("Welcome to the auction house. Starting scan...")
+        AhaUtil.PrettyPrint("Welcome to the auction house! Starting scan...")
         StartTimers()
         if C_AuctionHouse.HasFavorites() then
             AhaUtil.PrettyPrint("*** Delete your AH favorites! ***")
         end
     elseif event == "AUCTION_HOUSE_CLOSED" then
         CancelTimers()
-        AhaUtil.PrettyPrint("Auction house is closed")
+        AhaUtil.PrettyPrint("Auction house is closed.")
    end
 end
 
