@@ -1,5 +1,6 @@
 local NumAuctionsFoundLastCheck = 0
 local FavoritesCreated = {}
+local Timers = {}
 
 -- If this pet auction is a good bargain, add it as an AH favorite
 local function IsCheapPet(auction)
@@ -95,10 +96,6 @@ end
 
 -- Loop until the AH closes, processing new results as they become available
 local function CheckForAuctionResults()
-    if not AhaUtil.IsAHOpen() then
-        return
-    end
-
     local numAuctions = C_AuctionHouse.GetNumReplicateItems()
 
     if numAuctions == 0 or numAuctions == NumAuctionsFoundLastCheck then
@@ -115,9 +112,6 @@ local function CheckForAuctionResults()
     end
 
     NumAuctionsFoundLastCheck = numAuctions
-
-    -- Keep checking for results
-    C_Timer.After(30, CheckForAuctionResults)
 end
 
 -- RemoveFavorites removes all of the favorites that were created this login session
@@ -131,18 +125,36 @@ end
 local function Status()
     AhaUtil.PrettyPrint("NumAuctionsFoundLastCheck:", NumAuctionsFoundLastCheck)
     AhaUtil.PrettyPrint("#FavoritesCreated:", #FavoritesCreated)
+    AhaUtil.PrettyPrint("#Timers:", #Timers)
+end
+
+-- StartTimers creates recurring timers for each callback
+local function StartTimers()
+    Timers = {}
+    Timers[#Timers+1] = C_Timer.NewTicker(30, CheckForAuctionResults)
+    Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.Unfavorite)
+    Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.SetMinBuy)
+end
+
+-- CancelTimers cancels each timer StartTimers started
+local function CancelTimers()
+    for _, timer in pairs(Timers) do
+        timer:Cancel()
+    end
+    Timers = {}
 end
 
 -- Dispatch an incoming event
 local function OnEvent(self, event)
     if event == "AUCTION_HOUSE_SHOW" then
         AhaUtil.PrettyPrint("Welcome to the auction house. Starting scan...")
-        C_Timer.After(1, CheckForAuctionResults)
-        C_Timer.After(1, AhaPatches.Unfavorite)
-        C_Timer.After(1, AhaPatches.SetMinBuy)
+        StartTimers()
         if C_AuctionHouse.HasFavorites() then
             AhaUtil.PrettyPrint("*** Delete your AH favorites! ***")
         end
+    elseif event == "AUCTION_HOUSE_CLOSED" then
+        CancelTimers()
+        AhaUtil.PrettyPrint("Auction house is closed")
    end
 end
 
@@ -150,6 +162,7 @@ local Arbitrage = CreateFrame("Frame", "Arbitrage", UIParent)
 Arbitrage:Hide()
 Arbitrage:SetScript("OnEvent", OnEvent)
 Arbitrage:RegisterEvent("AUCTION_HOUSE_SHOW")
+Arbitrage:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
 AhaMain = {
     RemoveFavorites = RemoveFavorites,
