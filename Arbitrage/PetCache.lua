@@ -1937,6 +1937,7 @@ local OwnedLevelCache = {
   ["Blue Dragonhawk Hatchling"] = 25,
   ["Blue Moth"] = 6,
   ["Bombay Cat"] = 1,
+  ["Bone Serpent"] = 1,
   ["Boneshard"] = 6,
   ["Brightfeather"] = 6,
   ["Brilliant Kaliri"] = 6,
