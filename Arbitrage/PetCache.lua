@@ -2116,6 +2116,7 @@ local OwnedLevelCache = {
   ["Obsidian Hatchling"] = 4,
   ["Orange Tabby Cat"] = 25,
   ["Orphaned Felbat"] = 5,
+  ["Pandaren Earth Spirit"] = 1,
   ["Patos"] = 4,
   ["Peddlefeet"] = 25,
   ["Pengu"] = 3,
