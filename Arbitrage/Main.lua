@@ -152,10 +152,8 @@ local function OnEvent(self, event)
         if C_AuctionHouse.HasFavorites() then
             AhaUtil.PrettyPrint("*** Delete your AH favorites! ***")
         end
-        DoEmote("sit")
     elseif event == "AUCTION_HOUSE_CLOSED" then
         CancelTimers()
-        DoEmote("stand")
         AhaUtil.PrettyPrint("Auction house is closed.")
    end
 end
