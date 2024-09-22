@@ -26,7 +26,7 @@ local function IsCheapPet(auction)
     end
 
     -- The pet is of interest, but is it cheap?
-    local valueForLevel = 3000000 + 2000000*(petLevel-1)/24
+    local valueForLevel = 4000000 + 2000000*(petLevel-1)/24
     if buyoutPrice <= valueForLevel then
         -- This pet is worth buying!
         local itemKey = {
