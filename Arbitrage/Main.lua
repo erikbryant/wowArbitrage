@@ -108,7 +108,8 @@ local function CheckForAuctionResults()
             NumAuctionsFoundLastCheck = 0
         end
         FindArbitrages(NumAuctionsFoundLastCheck, numAuctions)
-        FindPetBargains(NumAuctionsFoundLastCheck, numAuctions)
+        -- Disabled because I am not searching for pets right now
+        --FindPetBargains(NumAuctionsFoundLastCheck, numAuctions)
     end
 
     NumAuctionsFoundLastCheck = numAuctions
