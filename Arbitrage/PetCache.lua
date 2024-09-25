@@ -2087,6 +2087,7 @@ local OwnedLevelCache = {
   ["Lil' Bling"] = 5,
   ["Little Fawn"] = 5,
   ["Littlehoof"] = 4,
+  ["Living Amber"] = 1,
   ["Living Sandling"] = 4,
   ["Lizard Hatchling"] = 9,
   ["Lofty Libram"] = 7,
