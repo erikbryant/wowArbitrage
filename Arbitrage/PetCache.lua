@@ -2239,6 +2239,7 @@ local OwnedLevelCache = {
   ["Violet Abyssal Eel"] = 4,
   ["Void-Scarred Beetle"] = 4,
   ["Void-Scarred Cat"] = 6,
+  ["Void-Scarred Hare"] = 1,
   ["Void-Scarred Pup"] = 5,
   ["Void-Scarred Toad"] = 8,
   ["Vorquin Runt"] = 23,
