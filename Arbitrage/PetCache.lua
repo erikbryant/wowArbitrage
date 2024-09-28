@@ -2234,6 +2234,7 @@ local OwnedLevelCache = {
   ["Tree Python"] = 7,
   ["Trishi"] = 5,
   ["Twilight Clutch-Sister"] = 5,
+  ["Umbrafen Spore"] = 8,
   ["Undercity Cockroach"] = 25,
   ["Unstable Tendril"] = 5,
   ["Untamed Hatchling"] = 4,
