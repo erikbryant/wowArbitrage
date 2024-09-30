@@ -11,4 +11,5 @@ Patches.lua
 PetCache.lua
 PriceCache.lua
 Slash.lua
+Pets.lua
 Main.lua
