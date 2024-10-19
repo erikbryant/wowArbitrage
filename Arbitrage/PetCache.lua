@@ -2157,6 +2157,7 @@ local OwnedLevelCache = {
   ["Patos"] = 4,
   ["Peddlefeet"] = 25,
   ["Pengu"] = 4,
+  ["Pet Bombling"] = 25,
   ["Phoenix Hatchling"] = 4,
   ["Phoenix Hawk Hatchling"] = 4,
   ["Pillarnest Bonedrinker"] = 4,
