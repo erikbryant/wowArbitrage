@@ -2122,6 +2122,7 @@ local OwnedLevelCache = {
   ["Inky"] = 1,
   ["Iron Starlette"] = 25,
   ["Ironbound Proto-Whelp"] = 5,
+  ["Irongrasp"] = 1,
   ["Juniper"] = 1,
   ["K'ute"] = 1,
   ["Kaliri Hatchling"] = 25,
