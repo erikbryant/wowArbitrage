@@ -2116,6 +2116,7 @@ local OwnedLevelCache = {
   ["Harbinger of Flame"] = 25,
   ["Harmonious Porcupette"] = 5,
   ["Harpy Youngling"] = 5,
+  ["Hatespark the Tiny"] = 1,
   ["Hawk Owl"] = 6,
   ["Heartseeker Moth"] = 5,
   ["Horde Balloon"] = 1,
