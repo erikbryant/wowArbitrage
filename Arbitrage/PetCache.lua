@@ -2257,6 +2257,7 @@ local OwnedLevelCache = {
   ["Pocket Reaver"] = 25,
   ["Poda"] = 4,
   ["Porcupette"] = 1,
+  ["Portentous Present"] = 1,
   ["Prairie Dog"] = 7,
   ["Primal Stormling"] = 10,
   ["Puddle Terror"] = 25,
