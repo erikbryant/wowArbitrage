@@ -2302,6 +2302,7 @@ local OwnedLevelCache = {
   ["Mouse"] = 5,
   ["Mr. Grubbs"] = 5,
   ["Muar"] = 4,
+  ["Muckbreath"] = 1,
   ["Muskflank Calfling"] = 5,
   ["Mustyfur Snooter"] = 4,
   ["Napps"] = 5,

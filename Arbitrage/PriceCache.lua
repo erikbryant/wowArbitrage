@@ -9503,11 +9503,11 @@ local VendorSellPriceCache = {
   ["219903"] = 12565,
   ["219905"] = 30000,
   ["219906"] = 80000,
-  ["219907"] = 22000,
-  ["219908"] = 22000,
+  ["219907"] = 80000,
+  ["219908"] = 80000,
   ["219909"] = 80000,
-  ["219910"] = 22000,
-  ["219911"] = 22000,
+  ["219910"] = 80000,
+  ["219911"] = 80000,
   ["219912"] = 17000,
   ["219913"] = 6500,
   ["219914"] = 6500,
@@ -10559,10 +10559,21 @@ local VendorSellPriceCache = {
   ["232636"] = 18647,
   ["232637"] = 234687,
   ["232638"] = 229156,
+  ["232985"] = 10000,
   ["233486"] = 10000,
   ["233800"] = 162390,
   ["234231"] = 22500,
   ["234232"] = 22500,
+  ["234380"] = 250000,
+  ["234381"] = 250000,
+  ["234386"] = 250000,
+  ["234387"] = 250000,
+  ["234415"] = 250000,
+  ["234416"] = 250000,
+  ["234417"] = 250000,
+  ["234418"] = 250000,
+  ["234419"] = 250000,
+  ["234420"] = 250000,
   ["234718"] = 216881,
   ["234719"] = 226130,
   ["234720"] = 233528,
@@ -10581,6 +10592,8 @@ local VendorSellPriceCache = {
   ["234972"] = 10000,
   ["234973"] = 12748,
   ["235015"] = 10000,
+  ["235038"] = 10800,
+  ["235268"] = 100000,
 }
 
 -- VendorSellPrice returns the cached vendor sell price
@@ -10598,7 +10611,7 @@ local function validatePriceCache()
                     local itemInfo = { C_Item.GetItemInfo(itemID) }
                     local sellPrice = itemInfo[11]
                     if cachedPrice ~= sellPrice then
-                        Util.PrettyPrint("Cached price mismatch!", itemID, GetCoinTextureString(cachedPrice), "~=", GetCoinTextureString(sellPrice))
+                        AhaUtil.PrettyPrint("Cached price mismatch!", itemID, GetCoinTextureString(cachedPrice), "~=", GetCoinTextureString(sellPrice))
                     end
                 end
         )
