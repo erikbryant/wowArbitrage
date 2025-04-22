@@ -6,7 +6,7 @@ local Timers = {}
 local function FindArbitrages(firstAuction, numAuctions)
     -- How loaded is the AH? At its lightest load it can do almost 200,000 auctions
     -- in 30 seconds (the current delay between calls to this function).
-    local ahCapacity = string.format("[%0.2f]", (numAuctions - firstAuction) / 200000)
+    local ahCapacity = string.format("[%0.2f]", (numAuctions - firstAuction) / 70000)
     AhaUtil.PrettyPrint("Searching auctions", firstAuction, "-", numAuctions, ahCapacity)
 
     -- Optimization: Create local function pointers so we only
@@ -85,7 +85,7 @@ end
 -- StartTimers creates recurring timers for each callback
 local function StartTimers()
     CancelTimers()
-    Timers[#Timers+1] = C_Timer.NewTicker(30, CheckForAuctionResults)
+    Timers[#Timers+1] = C_Timer.NewTicker(10, CheckForAuctionResults)
     Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.Unfavorite)
     Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.SetMinBuy)
 end
