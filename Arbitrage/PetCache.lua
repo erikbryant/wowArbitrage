@@ -2119,6 +2119,7 @@ local OwnedLevelCache = {
   ["Cockroach"] = 25,
   ["Cogblade Raptor"] = 19,
   ["Coilfang Stalker"] = 4,
+  ["Coldlight Surfrunner"] = 1,
   ["Comet"] = 11,
   ["Copperback Etherwyrm"] = 25,
   ["Coral Snake"] = 7,
