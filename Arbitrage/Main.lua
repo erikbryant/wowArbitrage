@@ -4,12 +4,9 @@ local Timers = {}
 
 -- Create an AH favorite for each auction that is an arbitrage
 local function FindArbitrages(firstAuction, numAuctions)
-    -- How loaded is the AH? At its lightest load it can do almost 200,000 auctions
-    -- in 30 seconds (the current delay between calls to this function).
-    local ahCapacity = string.format("[%0.2f]", (numAuctions - firstAuction) / 70000)
-    AhaUtil.PrettyPrint("Searching auctions", firstAuction, "-", numAuctions, ahCapacity)
+    AhaUtil.PrettyPrint("Searching auctions", firstAuction, "-", numAuctions)
 
-    -- Optimization: Create local function pointers so we only
+    -- Optimization: Create local function pointers. This way we only
     -- search for the function in the global namespace once,
     -- instead of on every call.
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
@@ -39,7 +36,7 @@ local function FindArbitrages(firstAuction, numAuctions)
     end
 end
 
--- Loop until the AH closes, processing new results as they become available
+-- Process any new AH scan results
 local function CheckForAuctionResults()
     local numAuctions = C_AuctionHouse.GetNumReplicateItems()
 
@@ -68,6 +65,7 @@ local function RemoveFavorites()
     FavoritesCreated = {}
 end
 
+-- Status displays debug information
 local function Status()
     AhaUtil.PrettyPrint("NumAuctionsFoundLastCheck:", NumAuctionsFoundLastCheck)
     AhaUtil.PrettyPrint("#FavoritesCreated:", #FavoritesCreated)
@@ -85,7 +83,7 @@ end
 -- StartTimers creates recurring timers for each callback
 local function StartTimers()
     CancelTimers()
-    Timers[#Timers+1] = C_Timer.NewTicker(10, CheckForAuctionResults)
+    Timers[#Timers+1] = C_Timer.NewTicker(5, CheckForAuctionResults)
     Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.Unfavorite)
     Timers[#Timers+1] = C_Timer.NewTicker(1, AhaPatches.SetMinBuy)
 end

@@ -39,7 +39,7 @@ end
 
 -- Create an AH favorite for each pet auction worth buying
 local function FindBargains(firstAuction, numAuctions)
-    -- Optimization: Create local function pointers so we only
+    -- Optimization: Create local function pointers. This way we only
     -- search for the function in the global namespace once,
     -- instead of on every call.
     local getReplicateItemInfo = C_AuctionHouse.GetReplicateItemInfo
