@@ -50,8 +50,6 @@ local function CheckForAuctionResults()
             NumAuctionsFoundLastCheck = 0
         end
         FindArbitrages(NumAuctionsFoundLastCheck, numAuctions)
-        -- << Disabled because I am not searching for pets right now >>
-        --AhaPets.FindBargains(NumAuctionsFoundLastCheck, numAuctions)
     end
 
     NumAuctionsFoundLastCheck = numAuctions
