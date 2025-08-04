@@ -19,9 +19,11 @@ local function FindArbitrages(firstAuction, numAuctions)
         local itemID = auction[17]
         if buyoutPrice > 0 and buyoutPrice < vendorSellPrice(itemID) then
             foundArbitrage = true
+            local itemInfo = {GetItemInfo(itemID)}
+            local itemLevel = itemInfo[4]
             local itemKey = {
                 itemID = itemID,
-                itemLevel = 0,
+                itemLevel = itemLevel,
                 itemSuffix = 0,
                 battlePetSpeciesID = 0,
             }
