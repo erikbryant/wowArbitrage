@@ -6,7 +6,7 @@
 ## SavedVariables:
 
 Global.lua
-Util.lua
+AhaUtil.lua
 Patches.lua
 PriceCache.lua
 Slash.lua
