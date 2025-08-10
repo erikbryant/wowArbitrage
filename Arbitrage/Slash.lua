@@ -1,7 +1,7 @@
 -- SlashUsage prints a usage message for the slash commands
 local function SlashUsage()
-    AhaUtil.PrettyPrint(AhaUtil.Version())
-    AhaUtil.PrettyPrint("Usage '/aha [command]' where command is:")
+    AhaUtil.PrettyPrint(AhaUtil.Version(), GetRealmName())
+    Utility.PrettyPrint("Usage '"..AhaGlobal.SLASH_CMD.." [command]' where command is:")
     AhaUtil.PrettyPrint("  favorites delete  - delete session favorites")
     AhaUtil.PrettyPrint("  debug 0/1           - debugging")
     AhaUtil.PrettyPrint("  status                 - dump internal state")
@@ -10,9 +10,7 @@ end
 -- SlashHandler processes the slash command the player typed
 local function SlashHandler(msg, ...)
     msg = string.lower(msg)
-    if msg == "" then
-        SlashUsage()
-    elseif msg == "favorites delete" or msg == "fd" then
+    if msg == "favorites delete" or msg == "fd" then
         AhaMain.RemoveFavorites()
     elseif msg == "debug 1" or msg == "d1" then
         C_CVar.SetCVar("scriptErrors", 1)
@@ -23,7 +21,9 @@ local function SlashHandler(msg, ...)
     elseif msg == "status" or msg == "s" then
         AhaMain.Status()
     else
-        AhaUtil.PrettyPrint("Unknown slash command:", msg)
+        if msg ~= "" then
+            AhaUtil.PrettyPrint("Unknown slash command:", msg)
+        end
         SlashUsage()
     end
 end
