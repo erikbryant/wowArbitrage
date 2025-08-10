@@ -1,7 +1,7 @@
 -- SlashUsage prints a usage message for the slash commands
 local function SlashUsage()
     AhaUtil.PrettyPrint(AhaUtil.Version(), GetRealmName())
-    Utility.PrettyPrint("Usage '"..AhaGlobal.SLASH_CMD.." [command]' where command is:")
+    AhaUtil.PrettyPrint("Usage '"..AhaGlobal.SLASH_CMD.." [command]' where command is:")
     AhaUtil.PrettyPrint("  favorites delete  - delete session favorites")
     AhaUtil.PrettyPrint("  debug 0/1           - debugging")
     AhaUtil.PrettyPrint("  status                 - dump internal state")
