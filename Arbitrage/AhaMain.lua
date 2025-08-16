@@ -102,11 +102,11 @@ local function OnEvent(self, event)
    end
 end
 
-local Arbitrage = CreateFrame("Frame", "Arbitrage", UIParent)
-Arbitrage:Hide()
-Arbitrage:SetScript("OnEvent", OnEvent)
-Arbitrage:RegisterEvent("AUCTION_HOUSE_SHOW")
-Arbitrage:RegisterEvent("AUCTION_HOUSE_CLOSED")
+local ArbitrageFrame = CreateFrame("Frame", "Arbitrage", UIParent)
+ArbitrageFrame:Hide()
+ArbitrageFrame:SetScript("OnEvent", OnEvent)
+ArbitrageFrame:RegisterEvent("AUCTION_HOUSE_SHOW")
+ArbitrageFrame:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
 AhaMain = {
     RemoveFavorites = RemoveFavorites,

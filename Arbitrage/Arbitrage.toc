@@ -7,7 +7,7 @@
 
 Global.lua
 AhaUtil.lua
-Patches.lua
+AhaPatches.lua
 PriceCache.lua
 Slash.lua
-Main.lua
+AhaMain.lua
